@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 def gantt_chart(schedule_folder, show=False):
 
     # check if a folder is provided
-    if 'Toyota Motor Europe' in schedule_folder:
+    if schedule_folder != '':
         DIR_EXCEL_SCHEDULE = schedule_folder
     else:
         DIR_EXCEL_SCHEDULE = input('Input folder where the schedule excel is: ')
@@ -121,6 +121,13 @@ def gantt_chart(schedule_folder, show=False):
 
     if show:
         plt.show()
+
+def main():
+    PATH = ''
+    gantt_chart(PATH)
+
+if __name__ == "__main__":
+    main()
 
 
 # later, to make this shit run

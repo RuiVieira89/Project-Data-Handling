@@ -18,8 +18,6 @@ from Cluster import Cluster
 import matplotlib.pyplot as plt
 
 
-dir_path = "C:\\Users\\RVI4590\\Toyota Motor Europe\\099E_Engine - Documents\\19_TMMP-SUPPORT\\Oil level gage - Difficult to insert into guide"
-dir_path = 'C:\\Users\\RVI4590\\Toyota Motor Europe\\099E_Engine - Documents\\10_VE VA activity\\2021_VA_activity\\Working-files\\Individual-items\\GPF Hose\\Tape-localise\\1_ECI RELEASE'
 
 dir_path = 'C:\\Users\\vieir\\OneDrive - DEM.UMINHO.PT\\00_RESEARCH TEG\\1_Paper João oliveira'
 
