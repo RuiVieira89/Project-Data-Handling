@@ -1,9 +1,9 @@
 # TODO
 # only for xlsx files for now
-# give
 
 import os
 import pandas as pd
+import tabula as tb
 
 
 class Scraper:
@@ -35,6 +35,24 @@ class Scraper:
                                     index_col=None, sheet_name=None,
                                     header=None)
 
+        elif  self.file_type == '.pdf':
+            try:
+                df_file = tb.read_pdf(
+                    file_dir, pages = 'all',
+                    #area = (0, 0, 900, 900), 
+                    #columns = [0, 0, 900, 900], 
+                    #pandas_options={'header': None}, 
+                    #stream=True
+                    )[0]
+            except Exception: # [] empty, so del [0]
+                df_file = tb.read_pdf(
+                    file_dir, pages = 'all',
+                    #area = (0, 0, 900, 900), 
+                    #columns = [0, 0, 900, 900], 
+                    #pandas_options={'header': None}, 
+                    #stream=True
+                    )
+
         return df_file
 
     def iterator(self):
@@ -48,3 +66,30 @@ class Scraper:
                 }
 
         return df_file
+
+
+
+def main():
+    
+    dir_path = ''
+    PROJ_DIR = dir_path
+    KEY_WORD = ''
+    FILE_TYPE = '.pdf'
+
+    scrapePDF = Scraper(PROJ_DIR, KEY_WORD, FILE_TYPE)
+    files = scrapePDF.iterator()
+    
+    for file in files:
+        
+        print(f'{file["book_name"]} Before: ')
+        
+        # Drops an entire axis of NaN
+        file['Data'].dropna(axis=0, how='all', thresh=None, 
+                            subset=None, inplace=True)
+        file['Data'].dropna(axis=1, how='all', thresh=None, 
+                            subset=None, inplace=True)
+
+    print('done')
+
+if __name__ == "__main__":
+    main()
