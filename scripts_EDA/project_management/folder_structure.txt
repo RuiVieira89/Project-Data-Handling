@@ -1,0 +1,131 @@
+
+
+000-Pre-Project
+    010-Business-Case
+    020-Project-Brief
+
+    010-Project-Initiation-Documents
+        010-Project-Initiation-Documents-PID
+        020-Project-Sucess-Criteria
+    
+    /*This should set out who the project is being sponsored by, 
+    the goals of the project, and projects constraints such as timescales, 
+    budgets, quality, and key success criteria.*/
+
+
+    020-RFI %% Request for Information %%
+        - Supplier_n %% n+1 ... %%
+
+    030-Requirements-Design
+        010-Functional-Requirements
+            /*For example, “Customers will be able 
+            to download invoices in Excel and PDF formats” is a functional requirement*/
+        020-Non-Functional-Requirements
+            /*“The supplier will provide a 2 year warranty on the product” 
+            is a non-functional requirement.*/
+
+    /*All projects should have a clearly defined set of 
+    deliverables otherwise known as requirements.
+    The requirements should be drawn from the outline 
+    given in the PID, research from the RFI stage, and 
+    business systems analysis conducted with the project stakeholders.*/
+
+
+    040-ITT %% Invitation to Tender %%
+        - Supplier_n %% n+1 ... %%
+        /*This is for PUR -> if necessary put that info here*/
+
+    040-Project-Financial-Accounting
+        001-Budget
+            001-Baseline-Archive
+            010-Current
+        010-Purchase-Orders
+        020-Supplier-Invoices
+            - Supplier_n %% n+1 ... %%
+
+        /*This is for PUR -> if necessary put that info here*/
+
+    050-Contracts
+        /*This is for PUR -> if necessary put that info here*/
+
+    060-Project-Plan
+        - schedule
+
+        /*The Project Manager is responsible for creating a -- time-based plan -- , 
+        to show when the project will be delivered and the key activities. 
+        They will usually be required to also produce a budget plan as well 
+        to show when major project costs will be incurred. After these documents 
+        have been presented to the Project Board and signed off, keep a baseline 
+        copy of these in the Archive sub-folders.*/
+
+        /*For most simple to moderate projects, you can develop a simple Gantt chart 
+        in Excel or use the Action Review Meeting (ARM) Template approach to drive progress.*/
+
+        /*The project plan should be broken down into individual work packages known as a 
+        work breakdown structure (WBS)*/
+
+
+100-Work-Packages
+
+    /*The Project Manager is responsible for dividing the project into sensible sized Work Packages. 
+    These can be thought of as mini-projects. Each work package may be contracted to a different 
+    supplier and allocated to a different manager or team in house.*/
+
+    /*I recommend that you create a subfolders for each work package and follow the file name convention 
+
+    -->    WBS-year-month-projectNumber-workPackageNumber-Descriptive_Name
+    
+    */
+
+    /*Treat each work package like a mini project and make sure the requirements (set in pre project) 
+    are clearly captured and managed through a change management process. The work package should 
+    include success criteria and QA for example.*/
+
+
+150-QA-Integration-Testing
+
+    /*Integration -- holistic view of the part in the hole. Consequences of the changes*/
+
+    /*Assuming each work package has been delivered to specification the project manager needs to ensure 
+    that all the packages are integrated and work as a whole. For this reason, while we like to treat work
+    packages as mini-projects, it is important that Work Package managers communicate with each other to 
+    ensure that what they are doing is what the other package managers are expecting.*/
+
+    /*When I run projects, I like to arrange what I call a smoke test, to test the integration of 
+    all the work packages as early as possible. This is often possible before all the detailed work 
+    on individual packages has been completed. Generally, in project management, the earlier in a 
+    project you know about a problem, the cheaper it will be to fix.*/
+
+
+200-Change-Control-Requests
+
+    /*General minnor changes*/
+
+
+300-Stakeholder-Communications
+    010-Stakeholders
+        - Management, Supplier, ...
+    020-Project-Board-Reports
+    030-Comunication-Plans
+        010-Unified-Commn-Plan
+        020-Internal-Comms
+        030-External-Comms
+    040-Project-Steering-Group-Reports
+
+400-Service-Transition-to-BaU
+    010-Hand-Over-Transition-Plans
+    020-Operational-Readiness
+    030-Customer-Acceptance
+    040-Training
+    050-Warranty-Documents
+
+900-Project-Logs
+    Issue-Log
+    Risk-Management-Log
+
+999-Project-Closure
+    010-Forward-Commitments
+    020-Project-Closure-Report
+    030-Financials
+    040-Contracts
+
