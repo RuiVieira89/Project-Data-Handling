@@ -4,7 +4,7 @@
     010-Business-Case
     020-Project-Brief
 
-    010-Project-Initiation-Documents
+    030-Project-Initiation-Documents
         010-Project-Initiation-Documents-PID
         020-Project-Sucess-Criteria
     
@@ -13,10 +13,10 @@
     budgets, quality, and key success criteria.*/
 
 
-    020-RFI %% Request for Information %%
+    040-RFI %% Request for Information %%
         - Supplier_n %% n+1 ... %%
 
-    030-Requirements-Design
+    050-Requirements-Design
         010-Functional-Requirements
             /*For example, “Customers will be able 
             to download invoices in Excel and PDF formats” is a functional requirement*/
@@ -31,11 +31,11 @@
     business systems analysis conducted with the project stakeholders.*/
 
 
-    040-ITT %% Invitation to Tender %%
+    060-ITT %% Invitation to Tender %%
         - Supplier_n %% n+1 ... %%
         /*This is for PUR -> if necessary put that info here*/
 
-    040-Project-Financial-Accounting
+    070-Project-Financial-Accounting
         001-Budget
             001-Baseline-Archive
             010-Current
@@ -45,10 +45,10 @@
 
         /*This is for PUR -> if necessary put that info here*/
 
-    050-Contracts
+    080-Contracts
         /*This is for PUR -> if necessary put that info here*/
 
-    060-Project-Plan
+    090-Project-Plan
         - schedule
 
         /*The Project Manager is responsible for creating a -- time-based plan -- , 
@@ -129,3 +129,6 @@
     030-Financials
     040-Contracts
 
+
+README.md 
+    short summary of the project 2-3 lines
