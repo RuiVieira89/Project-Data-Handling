@@ -31,12 +31,60 @@
                                 "commment": "",
                                 "level": 2
                             }
-
                         ]
                     },
                     {
                         "folder_name": "040-RFI_Request_for_Information",
                         "commment": "- Supplier_n %% n+1 ... %%",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "050-Requirements-Design",
+                        "commment": "All projects should have a clearly defined set of deliverables otherwise known as requirements. The requirements should be drawn from the outline given in the PID, research from the RFI stage, and business systems analysis conducted with the project stakeholders.",
+                        "level": 1,
+                        "child_folders": [
+                            {
+                                "folder_name": "010-Functional-Requirements",
+                                "commment": "For example, “Customers will be able to download invoices in Excel and PDF formats” is a functional requirement",
+                                "level": 2
+                            },
+                            {
+                                "folder_name": "020-Non-Functional-Requirements",
+                                "commment": "The supplier will provide a 2 year warranty on the product” is a non-functional requirement.",
+                                "level": 2
+                            }
+                        ]
+                    },
+                    {
+                        "folder_name": "060-ITT_Invitation_to_Tender",
+                        "commment": "- Supplier_n %% n+1 ... This is for PUR -> if necessary put that info here",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "070-Project-Financial-Accounting",
+                        "commment": "This is for PUR -> if necessary put that info here",
+                        "level": 1,
+                        "child_folders": [
+                            {
+                                "folder_name": "010-Budget",
+                                "commment": "",
+                                "level": 2
+                            },
+                            {
+                                "folder_name": "020-Supplier-Invoices",
+                                "commment": "",
+                                "level": 2
+                            }
+                        ]
+                    },
+                    {
+                        "folder_name": "080-Contracts",
+                        "commment": "This is for PUR -> if necessary put that info here",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "090-Project-Plan",
+                        "commment": "The Project Manager is responsible for creating a -- time-based plan -- , to show when the project will be delivered and the key activities. They will usually be required to also produce a budget plan as well to show when major project costs will be incurred. After these documents have been presented to the Project Board and signed off, keep a baseline copy of these in the Archive sub-folders. For most simple to moderate projects, you can develop a simple Gantt chart in Excel or use the Action Review Meeting (ARM) Template approach to drive progress. The project plan should be broken down into individual work packages known as a work breakdown structure (WBS)",
                         "level": 1
                     }
                 ]
@@ -45,6 +93,136 @@
                 "folder_name": "100-Work-Packages",
                 "commment": "The Project Manager is responsible for dividing the project into sensible sized Work Packages. These can be thought of as mini-projects. Each work package may be contracted to a different supplier and allocated to a different manager or team in house. I recommend that you create a subfolders for each work package and follow the file name convention -->    WBS-year-month-projectNumber-workPackageNumber-Descriptive_Name »» Treat each work package like a mini project and make sure the requirements (set in pre project) are clearly captured and managed through a change management process. The work package should include success criteria and QA for example.",
                 "level": 0
+            },
+            {
+                "folder_name": "150-QA-Integration-Testing",
+                "commment": "Integration -- holistic view of the part in the hole. Consequences of the changes. Assuming each work package has been delivered to specification the project manager needs to ensure that all the packages are integrated and work as a whole. For this reason, while we like to treat work packages as mini-projects, it is important that Work Package managers communicate with each other to ensure that what they are doing is what the other package managers are expecting. When I run projects, I like to arrange what I call a smoke test, to test the integration of all the work packages as early as possible. This is often possible before all the detailed work on individual packages has been completed. Generally, in project management, the earlier in a project you know about a problem, the cheaper it will be to fix.",
+                "level": 0
+            },
+            {
+                "folder_name": "200-Change-Control-Requests",
+                "commment": "General minnor changes",
+                "level": 0
+            },
+            {
+                "folder_name": "300-Stakeholder-Communications",
+                "commment": "",
+                "level": 0,
+                "child_folders": [
+                    {
+                        "folder_name": "010-Stakeholders",
+                        "commment": "Identify the stackholds and its releationships",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "020-Project-Board-Reports",
+                        "commment": "document that describes the progress of a project within a specific time period and compares it against the project plan",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "030-Comunication-Plans",
+                        "commment": "",
+                        "level": 1,
+                        "child_folders": [
+                            {
+                                "folder_name": "010-Unified-Commn-Plan",
+                                "commment": "Rules of engagement -> pipelining all of the channels we use to get work done into one centralized workflow",
+                                "level": 2
+                            },
+                            {
+                                "folder_name": "020-Internal-Comms",
+                                "commment": "For internal discussion",
+                                "level": 2
+                            },
+                            {
+                                "folder_name": "030-External-Comms",
+                                "commment": "for suppliers etc..",
+                                "level": 2
+                            }
+                        ]
+                    },
+                    {
+                        "folder_name": "040-Project-Steering-Group-Reports",
+                        "commment": "For higher level final approvals",
+                        "level": 1
+                    }
+                ]
+            },
+            {
+                "folder_name": "400-Service-Transition-to-BaU",
+                "commment": "Docs the transition to final costumer",
+                "level": 0,
+                "child_folders": [
+                    {
+                        "folder_name": "010-Hand-Over-Transition-Plans",
+                        "commment": "report for final client with hand over plan",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "020-Operational-Readiness",
+                        "commment": "Checks with final costumer implementation feasablility",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "030-Customer-Acceptance",
+                        "commment": "acceptance/refusal reports",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "040-Training",
+                        "commment": "",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "050-Warranty-Documents",
+                        "commment": "",
+                        "level": 1
+                    }
+                ]
+            },
+            {
+                "folder_name": "900-Project-Logs",
+                "commment": "Proj logs",
+                "level": 0,
+                "child_folders": [
+                    {
+                        "folder_name": "Issue-Log",
+                        "commment": "List of issues with contermeasures",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "Risk-Management-Log",
+                        "commment": "",
+                        "level": 1
+                    }
+                ]
+            },
+            {
+                "folder_name": "999-Project-Closure",
+                "commment": "",
+                "level": 0,
+                "child_folders": [
+                    {
+                        "folder_name": "010-Forward-Commitments",
+                        "commment": "",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "020-Project-Closure-Report",
+                        "commment": "",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "030-Financials",
+                        "commment": "This is for PUR -> if necessary put that info here",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "040-Contracts",
+                        "commment": "This is for PUR -> if necessary put that info here",
+                        "level": 1
+                    }
+                ]
             }
         ]
     }

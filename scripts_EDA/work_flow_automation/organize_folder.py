@@ -4,13 +4,11 @@ import os
 
 class CreateFileSystem:
     
-    def __init__(self, target_folder):
+    def __init__(self, target_folder, json_file):
         self.target_folder = target_folder
         self.folder_list = []
     
-        json_file = ''.join([os.getcwd(), 
-                             "\\scripts_EDA\\work_flow_automation\\organize_folder.json"])
-        with open(json_file, 'r') as f:
+        with open(json_file, 'r', encoding="utf8") as f:
             jsonData = json.load(f)
 
         self.conditional_recursive_get_folders(
