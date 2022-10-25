@@ -5,21 +5,21 @@ class Cost_ratios:
 
         print(f'{context}={result:.2f}\n')
 
-    def CIM(self, european_manufact_cost, overseas_manufact_cost):
+    def CIM(self, local_manufact_cost, overseas_manufact_cost):
         # CIM Cost Index Manufacturing
         # EU Manufacturing cost / overseas Manufacturing cost
 
-        cim = european_manufact_cost/overseas_manufact_cost
+        cim = local_manufact_cost/overseas_manufact_cost
 
         self.print_out(cim, 'CIM')
 
         return cim
 
-    def CIL(self, european_manufact_cost, overseas_manufact_cost, overseas_logistic_cost, european_logistic_cost):
+    def CIL(self, local_manufact_cost, overseas_manufact_cost, overseas_logistic_cost, local_logistic_cost):
         # CIM Cost Index Landing =
         # EU Manufacturing cost / (overseas manufacturing cost + overseas Logistics cost)
 
-        cil = (european_manufact_cost + european_logistic_cost)/(overseas_manufact_cost + overseas_logistic_cost)
+        cil = (local_manufact_cost + local_logistic_cost)/(overseas_manufact_cost + overseas_logistic_cost)
 
         self.print_out(cil, 'CIL')
 
