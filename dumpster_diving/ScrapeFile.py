@@ -66,34 +66,3 @@ class Scraper:
                 }
 
         return df_file
-
-
-
-def main():
-    
-    dir_path = 'C:\\Users\\vieir\\OneDrive - DEM.UMINHO.PT\\00_RESEARCH TEG\\1_Paper João oliveira'
-    PROJ_DIR = dir_path
-    KEY_WORD = ''
-    FILE_TYPE = '.xlsx' # .pdf
-
-    scrapePDF = Scraper(PROJ_DIR, KEY_WORD, FILE_TYPE)
-    files = scrapePDF.iterator()
-    
-    for file in files:
-        for books in file:
-        
-            print(f'{books["book_name"]} Before: {books["Data"].isna().sum().sum()}')
-            
-            # Drops an entire axis of NaN
-            books['Data'].dropna(axis=0, how='all', thresh=None, 
-                                subset=None, inplace=True)
-            books['Data'].dropna(axis=1, how='all', thresh=None, 
-                                subset=None, inplace=True)
-            
-            print(f'{books["book_name"]} After: {books["Data"].isna().sum().sum()}')
-        
-
-    print('done')
-
-if __name__ == "__main__":
-    main()
