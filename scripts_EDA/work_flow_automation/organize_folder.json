@@ -4,16 +4,47 @@
             {
                 "folder_name": "000-Pre-Project",
                 "commment": "",
+                "level": 0,
                 "child_folders": [
                     {
                         "folder_name": "010-Business-Case",
-                        "commment": ""
+                        "commment": "",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "020-Project-Brief",
+                        "commment": "",
+                        "level": 1
+                    },
+                    {
+                        "folder_name": "030-Project-Initiation-Documents",
+                        "commment": "This should set out who the project is being sponsored by, the goals of the project, and projects constraints such as timescales, budgets, quality, and key success criteria.",
+                        "level": 1,
+                        "child_folders": [
+                            {
+                                "folder_name": "010-Project-Initiation-Documents-PID",
+                                "commment": "",
+                                "level": 2
+                            },
+                            {
+                                "folder_name": "020-Project-Sucess-Criteria",
+                                "commment": "",
+                                "level": 2
+                            }
+
+                        ]
+                    },
+                    {
+                        "folder_name": "040-RFI_Request_for_Information",
+                        "commment": "- Supplier_n %% n+1 ... %%",
+                        "level": 1
                     }
                 ]
             },
             {
                 "folder_name": "100-Work-Packages",
-                "commment": "The Project Manager is responsible for dividing the project into sensible sized Work Packages. These can be thought of as mini-projects. Each work package may be contracted to a different supplier and allocated to a different manager or team in house. I recommend that you create a subfolders for each work package and follow the file name convention -->    WBS-year-month-projectNumber-workPackageNumber-Descriptive_Name »» Treat each work package like a mini project and make sure the requirements (set in pre project) are clearly captured and managed through a change management process. The work package should include success criteria and QA for example."
+                "commment": "The Project Manager is responsible for dividing the project into sensible sized Work Packages. These can be thought of as mini-projects. Each work package may be contracted to a different supplier and allocated to a different manager or team in house. I recommend that you create a subfolders for each work package and follow the file name convention -->    WBS-year-month-projectNumber-workPackageNumber-Descriptive_Name »» Treat each work package like a mini project and make sure the requirements (set in pre project) are clearly captured and managed through a change management process. The work package should include success criteria and QA for example.",
+                "level": 0
             }
         ]
     }
