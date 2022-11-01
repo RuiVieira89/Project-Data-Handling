@@ -7,7 +7,7 @@ import tabula as tb
 
 
 class Scraper:
-    # template for getting RAW excel data in a folder
+    # template for getting RAW data in a folder
     # 0th level folder only
 
     def __init__(self, proj_dir, key_word, file_type):
@@ -54,6 +54,23 @@ class Scraper:
                     )
 
         return df_file
+    
+    def clean_nan_rows(self, files):
+        for file in files:
+            for book_name in file['Data']:
+                #file['Data'][book_name]
+            
+                print(f'{book_name} Before: {file["Data"][book_name].isna().sum().sum()}')
+                
+                # Drops an entire axis of NaN
+                file['Data'][book_name].dropna(axis=0, how='all', thresh=None, 
+                                    subset=None, inplace=True)
+                file['Data'][book_name].dropna(axis=1, how='all', thresh=None, 
+                                    subset=None, inplace=True)
+                
+                print(f'{book_name} After: {file["Data"][book_name].isna().sum().sum()}')
+                
+        return files
 
     def iterator(self):
 
@@ -64,5 +81,7 @@ class Scraper:
                 'book_name': file,
                 'Data': self.return_dataframe(file)
                 }
+        
+        df_file_data = self.clean_nan_rows(df_file)
 
-        return df_file
+        return df_file_data
