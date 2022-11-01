@@ -1,0 +1,65 @@
+{
+    "Context": {
+        "tiles": [
+            {
+                "tile_name": "Data",
+                "commment": "General data treatment",
+                "GUIcommand": "new window",
+                "level": 0
+            },
+            {
+                "tile_name": "Project Management",
+                "commment": "General PM stuff ",
+                "GUIcommand": "pop-up",
+                "level": 0,
+                "Child": [
+                    {
+                        "tile_name": "Schedule",
+                        "commment": "make schedule",
+                        "GUIcommand": "new window",
+                        "level": 1
+                    },
+                    {
+                        "tile_name": "folder creation",
+                        "commment": "creates folder",
+                        "GUIcommand": "new window",
+                        "level": 1,
+                        "Child": [
+                            {
+                                "tile_name": "VA",
+                                "commment": "for VA",
+                                "GUIcommand": "new window",
+                                "level": 2
+                            },
+                            {
+                                "tile_name": "New poj",
+                                "commment": "for new proj",
+                                "GUIcommand": "new window",
+                                "level": 2
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "tile_name": "KPI",
+                "commment": "tool to calc KPI ",
+                "GUIcommand": "new window",
+                "level": 0
+            },
+            {
+                "tile_name": "AI",
+                "commment": "AI models ",
+                "GUIcommand": "new window",
+                "level": 0
+            },
+            {
+                "tile_name": "utils",
+                "commment": "General utils",
+                "GUIcommand": "new window",
+                "level": 0
+            }
+        ],
+        "number_of_rows": 2
+    }
+}
