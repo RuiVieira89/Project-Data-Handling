@@ -36,18 +36,20 @@ def gantt_chart(schedule_folder, show=False):
     today_line_length = len(df) + len(df['Category'].unique()) * 4 
     #+ 6 (can use this to have more space below)
     # Draw vertical line on today's mark
-    ax.vlines(today, ymin=-3, ymax=today_line_length, color='red', lw=2, zorder=-1) 
+    ax.vlines(today.timestamp(), ymin=-3, ymax=today_line_length, color='red', lw=2, zorder=-1) 
     ax.text(today, -3, today.date(), fontweight='bold')
     ax.text(today, today_line_length + 1, today.date(), fontweight='bold')
 
     # Quarters bars 
     q = pd.date_range(min(df['Start']), freq='QS',
     periods=(max(df['End']) - min(df['Start'])).days//91+1,
-    normalize=False, inclusive="left")
+    normalize=False) #, inclusive="left")
     for i, quarter in enumerate(q):
         if (i<len(q)-1) and (i % 2 == 1): 
             ax.fill_between(
-            (q[i],q[i+1]), -5, today_line_length+2.5, facecolor='tab:cyan', alpha = 0.2)
+            (q[i].timestamp(),q[i+1].timestamp()), -5, 
+            today_line_length+2.5, facecolor='tab:cyan', alpha = 0.2
+            )
         quarter_label = 'Q'+str(quarter.quarter)+'-'+str(quarter.year)
         # Display today's date on top
         ax.text(quarter + pd.DateOffset(days=45), -4, quarter_label, ha='center') 
@@ -57,13 +59,14 @@ def gantt_chart(schedule_folder, show=False):
     # fill 1st quarter
     if min(df['Start']) < q[0]:
         ax.fill_between(
-        (min(df['Start']),q[0]), -5, today_line_length+2.5, facecolor='tab:cyan', alpha = 0.2)
+        (min(df['Start']).timestamp(),q[0].timestamp()), -5, 
+        today_line_length+2.5, facecolor='tab:cyan', alpha = 0.2)
 
     # Montly line 
     q = pd.date_range(min(df['Start']), freq='M', periods=(max(df['End']) - min(df['Start'])).days//30+1)
     for i, month in enumerate(q):
         if (i<len(q)-1):# and (i % 2 == 1): 
-            ax.vlines((q[i],q[i+1]), -5, today_line_length+2.5)
+            ax.vlines((q[i].timestamp(),q[i+1].timestamp()), -5, today_line_length+2.5)
         month_label = str(month.month)+'-'+str(month.year)
         ax.text(month + pd.DateOffset(days=-15), today_line_length+2, month_label, ha='center')
 
@@ -95,7 +98,7 @@ def gantt_chart(schedule_folder, show=False):
         str(int(len(df_g[~df_g['Completed'].isnull()])/len(df_g) *100)) + '% completed') 
         group_start_y += 3 # Where to start with tasks
         ax.hlines(group_start_y + group_size_y - 0.5, 
-            xmin=min(df['Start']), xmax=max(df['End']), 
+            xmin=min(df['Start']).timestamp(), xmax=max(df['End']).timestamp(), 
             color='tab:grey', alpha=0.5)
         
         # Display each task
@@ -107,7 +110,7 @@ def gantt_chart(schedule_folder, show=False):
             if task['End'] < today: task_color = 'tab:red' # Overdue
             if task['Completed'] < today: task_color = 'tab:green'  # Completed     
             # Draw bar
-            ax.broken_barh([(task['Start'],task['Duration'])],(group_start_y+i,1), color=task_color) 
+            ax.broken_barh([(task['Start'].timestamp(),task['Duration'])],(group_start_y+i,1), color=task_color) 
             ax.text(task['Start']+task['Duration'] * pd.DateOffset(days=1) + pd.DateOffset(days=2),
                 group_start_y+i+0.6,task_name, va='center', fontsize='x-large') # bar label - task name
         
@@ -123,7 +126,10 @@ def gantt_chart(schedule_folder, show=False):
         plt.show()
 
 def main():
-    PATH = ''
+    
+    #from utils.String_manipulation import WinFolder_path_to_PY
+    PATH = r'C:\Users\vieir\OneDrive\Documentos\00_TEST'
+    #WinFolder_path_to_PY(r'C:\Users\vieir\OneDrive\Documentos\00_TEST')
     gantt_chart(PATH)
 
 if __name__ == "__main__":

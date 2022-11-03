@@ -5,7 +5,8 @@ This is not generalized
 
 
 import PySimpleGUI as sg
-from work_flow_automation.organize_folder import CreateFileSystem
+from ProjectDataHandling.work_flow_automation.organize_folder import CreateFileSystem
+from ProjectDataHandling.project_management.timelines.Gantt_chart_from_excel import gantt_chart
 
 
 def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_file):
@@ -68,7 +69,12 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
         if event == "Exit" or event == sg.WIN_CLOSED:
             break
         if event == "folder creation":
+            target_folder = sg.popup_get_folder('Select target folder',no_window=True)
             CreateFileSystem(target_folder, folder_json_file)
+            
+        elif event == "Schedule":
+            target_folder = sg.popup_get_folder('Select target folder',no_window=True)
+            gantt_chart(target_folder)
         
     window.close()
 
