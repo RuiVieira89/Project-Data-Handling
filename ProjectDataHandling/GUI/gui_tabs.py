@@ -74,16 +74,22 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
             
             if target_folder != '':
                 CreateFileSystem(target_folder, folder_json_file)
-            
+                sg.popup_ok(f'Folders created! \nFind them at: {target_folder}')
+                
         elif event == "Schedule":
             target_folder = sg.popup_get_folder('Select target folder',no_window=True)
             if target_folder != '':
                 gantt = Gantt_Schedule(
                     WinFolder_path_to_PY(target_folder))
+                #text1 = sg.popup_get_text('Small : ')
                 gantt.plot(7)
                 gantt.gridlines('Month',30)
                 gantt.ouput(show=True)
+                sg.popup_ok(f'Schedule done! \nFind it at: {target_folder}')
 
-        
+    sg.popup_no_buttons('Have a nice day!', background_color='Black', 
+                    text_color='white', auto_close_duration=2, 
+                    auto_close=True, no_titlebar=True)
+
     window.close()
 
