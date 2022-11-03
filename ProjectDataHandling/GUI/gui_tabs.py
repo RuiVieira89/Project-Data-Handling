@@ -71,15 +71,18 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
             break
         if event == "folder creation":
             target_folder = sg.popup_get_folder('Select target folder',no_window=True)
-            CreateFileSystem(target_folder, folder_json_file)
+            
+            if target_folder != '':
+                CreateFileSystem(target_folder, folder_json_file)
             
         elif event == "Schedule":
             target_folder = sg.popup_get_folder('Select target folder',no_window=True)
-            gantt = Gantt_Schedule(
-                WinFolder_path_to_PY(target_folder))
-            gantt.plot(7)
-            gantt.gridlines('Month',30)
-            gantt.ouput(show=True)
+            if target_folder != '':
+                gantt = Gantt_Schedule(
+                    WinFolder_path_to_PY(target_folder))
+                gantt.plot(7)
+                gantt.gridlines('Month',30)
+                gantt.ouput(show=True)
 
         
     window.close()
