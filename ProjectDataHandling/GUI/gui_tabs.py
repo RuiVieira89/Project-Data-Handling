@@ -84,6 +84,7 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
                 #text1 = sg.popup_get_text('Small : ')
                 gantt.plot(7)
                 gantt.gridlines('Month',30)
+                gantt.today_line()
                 gantt.ouput(show=True)
                 sg.popup_ok(f'Schedule done! \nFind it at: {target_folder}')
 

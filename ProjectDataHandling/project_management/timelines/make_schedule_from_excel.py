@@ -106,7 +106,7 @@ class Gantt_Schedule:
         xticks_top_major = np.arange(major_time_delta/2, self.df.end_num.max()+1, major_time_delta)
         ax_top.set_xticks(xticks_top_major, minor=False)
         # period labels
-        xticks_top_labels = [f"{period} {i}"for i in np.arange(1, len(xticks_top_major)+1, 1)]
+        xticks_top_labels = [f"{period} {i}" for i in np.arange(1, len(xticks_top_major)+1, 1)]
         ax_top.set_xticklabels(xticks_top_labels, ha='center', minor=False)
         
         # hide major tick (we only want the label)
@@ -123,6 +123,20 @@ class Gantt_Schedule:
         ax_top.spines['right'].set_visible(False)
         ax_top.spines['left'].set_visible(False)
         ax_top.spines['top'].set_visible(False)
+        
+    def today_line(self):
+        # Today line
+        today_to_ref_dt = pd.Timestamp.today() - self.df['Start'][0]
+        today_line_length = len(self.df)
+        # Draw vertical line on today's mark
+        self.ax.vlines(today_to_ref_dt.days, 
+                       ymin=-1, ymax=today_line_length, 
+                       color='red', lw=2, zorder=-1) 
+        self.ax.text(today_to_ref_dt.days, -1, 
+                     pd.Timestamp.today().date(), fontweight='bold')
+        self.ax.text(today_to_ref_dt.days, today_line_length, 
+                     pd.Timestamp.today().date(), fontweight='bold')
+    
         
     def ouput(self, show=False):
 
@@ -143,6 +157,7 @@ def main():
     gantt = Gantt_Schedule(PATH)
     gantt.plot(7)
     gantt.gridlines('Month',30)
+    gantt.today_line()
     gantt.ouput(show=True)
 
 if __name__ == "__main__":
