@@ -60,7 +60,7 @@ class Scraper:
             for book_name in file['Data']:
                 #file['Data'][book_name]
             
-                print(f'{book_name} Before: {file["Data"][book_name].isna().sum().sum()}')
+                print(f'{book_name} NAs Before: {file["Data"][book_name].isna().sum().sum()}')
                 
                 # Drops an entire axis of NaN
                 file['Data'][book_name].dropna(axis=0, how='all', thresh=None, 
@@ -68,7 +68,7 @@ class Scraper:
                 file['Data'][book_name].dropna(axis=1, how='all', thresh=None, 
                                     subset=None, inplace=True)
                 
-                print(f'{book_name} After: {file["Data"][book_name].isna().sum().sum()}')
+                print(f'{book_name} NAs After: {file["Data"][book_name].isna().sum().sum()}')
                 
         return files
 
@@ -82,6 +82,4 @@ class Scraper:
                 'Data': self.return_dataframe(file)
                 }
         
-        df_file_data = self.clean_nan_rows(df_file)
-
-        return df_file_data
+        return df_file
