@@ -15,13 +15,13 @@
                 "Child": [
                     {
                         "tile_name": "Schedule",
-                        "commment": "make schedule",
+                        "commment": "creates a schedule, select a folder with the make_schedule_from_excel.xlsx file",
                         "GUIcommand": "new window",
                         "level": 1
                     },
                     {
                         "tile_name": "folder creation",
-                        "commment": "creates folder",
+                        "commment": "creates folder structure",
                         "GUIcommand": "new window",
                         "level": 1,
                         "Child": [

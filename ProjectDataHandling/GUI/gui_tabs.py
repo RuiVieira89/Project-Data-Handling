@@ -6,12 +6,9 @@ This is not generalized
 # --> create new work pkg etc...
 
 import PySimpleGUI as sg
-from ProjectDataHandling.work_flow_automation.organize_folder import CreateFileSystem
-from ProjectDataHandling.project_management.timelines.make_schedule_from_excel import Gantt_Schedule
-from ProjectDataHandling.utils.String_manipulation import WinFolder_path_to_PY
 
 
-def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_file):
+def GUI_tabs(context):
 
     def return_frame(title):
         return [sg.Button(title, pad=(5, 3), 
@@ -36,8 +33,8 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
             elements = []
             for index in range(len(context["Child"])):
                 
-                element = [sg.Button(context["Child"][index]["tile_name"]),
-                           #sg.Text(context['commment'])
+                element = [sg.Text(context["Child"][index]["commment"]),
+                           sg.Button(context["Child"][index]["tile_name"])
                            ]
                 elements.append(element)
             #elements = elements[0]
@@ -45,13 +42,11 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
         return sg.Tab(context['tile_name'], elements, 
                         #title_color='Red', 
                         #background_color='Green', 
-                        tooltip='Instructions', 
+                        tooltip=context["commment"], 
                         element_justification= 'right')
-    
-    sg.theme('BlueMono')
-        
+                
     tabs = []
-    for tab in tile_context:
+    for tab in context:
         tabs.append(return_tab(tab))
     
     tab_group = [[sg.TabGroup([tabs],
@@ -64,39 +59,4 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
                   sg.Button('Exit')
                   ]]
     
-    window = sg.Window("Tabs",tab_group)
-
-
-    while True:
-        event, values = window.read()
-        print(f'event={event}') ## this is what matters
-        print(f'values={values}')
-        if event == "Exit" or event == sg.WIN_CLOSED:
-            break
-        if event == "folder creation":
-            target_folder = sg.popup_get_folder('Select target folder',no_window=True)
-            
-            if target_folder != '':
-                CreateFileSystem(target_folder, folder_json_file)
-                sg.popup_ok(f'Folders created! \nFind them at: {target_folder}')
-                
-        elif event == "Schedule":
-            target_folder = sg.popup_get_folder('Select target folder',no_window=True)
-            if target_folder != '':
-                gantt = Gantt_Schedule(
-                    WinFolder_path_to_PY(target_folder))
-                #text1 = sg.popup_get_text('Small : ')
-                gantt.plot(7)
-                gantt.gridlines('Month',30)
-                gantt.today_line()
-                gantt.ouput(show=True)
-                sg.popup_ok(f'Schedule done! \nFind it at: {target_folder}')
-
-    sg.popup_no_buttons('Have a nice day!', 
-                        background_color='Black', 
-                        text_color='white', 
-                        auto_close_duration=2, 
-                        auto_close=True, no_titlebar=True)
-
-    window.close()
-
+    return tab_group
