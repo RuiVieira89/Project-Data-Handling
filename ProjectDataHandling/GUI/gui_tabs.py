@@ -3,6 +3,7 @@ Example:
 This is not generalized
 """
 
+# --> create new work pkg etc...
 
 import PySimpleGUI as sg
 from ProjectDataHandling.work_flow_automation.organize_folder import CreateFileSystem
@@ -42,9 +43,12 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
             #elements = elements[0]
 
         return sg.Tab(context['tile_name'], elements, 
-                        title_color='Red', background_color='Green', 
+                        #title_color='Red', 
+                        #background_color='Green', 
                         tooltip='Instructions', 
                         element_justification= 'right')
+    
+    sg.theme('BlueMono')
         
     tabs = []
     for tab in tile_context:
@@ -52,10 +56,10 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
     
     tab_group = [[sg.TabGroup([tabs],
                         tab_location='centertop',
-                        title_color='White', 
-                        tab_background_color='Black', 
-                        selected_title_color='Green', 
-                        selected_background_color='Gray', 
+                        #title_color='White', 
+                        #tab_background_color='Black', 
+                        #selected_title_color='Green', 
+                        #selected_background_color='Gray', 
                         border_width=5), 
                   sg.Button('Exit')
                   ]]
@@ -88,9 +92,11 @@ def Resizable_Dashboard_using_Frames(tile_context, target_folder, folder_json_fi
                 gantt.ouput(show=True)
                 sg.popup_ok(f'Schedule done! \nFind it at: {target_folder}')
 
-    sg.popup_no_buttons('Have a nice day!', background_color='Black', 
-                    text_color='white', auto_close_duration=2, 
-                    auto_close=True, no_titlebar=True)
+    sg.popup_no_buttons('Have a nice day!', 
+                        background_color='Black', 
+                        text_color='white', 
+                        auto_close_duration=2, 
+                        auto_close=True, no_titlebar=True)
 
     window.close()
 
