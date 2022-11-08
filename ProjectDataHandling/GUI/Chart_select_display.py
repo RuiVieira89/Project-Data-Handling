@@ -10,6 +10,7 @@ matplotlib.use('TkAgg')
 def select_display(option_funcs_dict, data):
     
     #  The magic function that makes it possible.... glues together tkinter and pyplot using Canvas Widget
+    """
     def draw_figure(canvas, figure):
         if not hasattr(draw_figure, 'canvas_packed'):
             draw_figure.canvas_packed = {}
@@ -29,7 +30,7 @@ def select_display(option_funcs_dict, data):
         except Exception as e:
             print(f'Error removing {figure_agg} from list', e)
         plt.close('all')
-
+    """
     
     figure_w, figure_h = 650, 650
     # define the form layout

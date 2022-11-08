@@ -4,6 +4,8 @@ class Cost_ratios:
     def print_out(self, result, context):
 
         print(f'{context}={result:.2f}\n')
+        
+        return f'{context}={result:.2f}\n'
 
     def CIM(self, local_manufact_cost, overseas_manufact_cost):
         # CIM Cost Index Manufacturing
@@ -24,12 +26,3 @@ class Cost_ratios:
         self.print_out(cil, 'CIL')
 
         return cil
-
-
-def main():
-
-    costs = Cost_ratios()
-    costs.CIM(7.186, 7.451)
-
-if __name__ == "__main__":
-    main()

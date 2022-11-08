@@ -53,7 +53,15 @@
                 "tile_name": "KPI",
                 "commment": "tool to calc KPI ",
                 "GUIcommand": "new window",
-                "level": 0
+                "level": 0,
+                "Child": [
+                    {
+                        "tile_name": "Cost comparison",
+                        "commment": "Compares cost of two options",
+                        "GUIcommand": "new window",
+                        "level": 1
+                    }
+                ]
             },
             {
                 "tile_name": "AI",

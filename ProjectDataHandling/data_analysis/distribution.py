@@ -1,17 +1,13 @@
 import seaborn as sns
 #import matplotlib.pyplot as plt
 
-
-
 def jointplot(data):
-    
     
     sns.jointplot(data=data)
 
 def pairplot(data):
     
     sns.pairplot(data=data)
-
 
 def grid_plot_dist(data):
     
@@ -26,13 +22,9 @@ def catplot(data, kind="box"):
     
     sns.catplot(data=data, kind=kind)
 
-
-
 def relplot(data):
 
     sns.relplot(
         data=data, kind="line",
         errorbar="sd"
     )
-
-

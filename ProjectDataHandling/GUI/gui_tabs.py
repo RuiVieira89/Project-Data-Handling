@@ -6,7 +6,7 @@ This is not generalized
 # --> create new work pkg etc...
 
 import PySimpleGUI as sg
-
+import os
 
 def GUI_tabs(context):
 
@@ -49,7 +49,8 @@ def GUI_tabs(context):
     for tab in context:
         tabs.append(return_tab(tab))
     
-    tab_group = [[sg.TabGroup([tabs],
+    tab_group = [[sg.Text('Good day!\nSelect a tab.')],
+                 [sg.TabGroup([tabs],
                         tab_location='centertop',
                         #title_color='White', 
                         #tab_background_color='Black', 
