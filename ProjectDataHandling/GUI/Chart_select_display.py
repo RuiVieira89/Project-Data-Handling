@@ -51,18 +51,19 @@ def select_display(option_funcs_dict, data):
     # The GUI Event Loop
     while True:
         event, values = window.read()
-        # print(event, values)                  # helps greatly when debugging
+        print(event, values)                  # helps greatly when debugging
         if event in (sg.WIN_CLOSED, 'Exit'):             # if user closed window or clicked Exit button
             break
-        if figure_agg:
+        #if figure_agg:
             # ** IMPORTANT ** Clean up previous drawing before drawing again
-            delete_figure_agg(figure_agg)
+            #delete_figure_agg(figure_agg)
         choice = values['-LISTBOX-'][0]                 # get first listbox item chosen (returned as a list)
         func = option_funcs_dict[choice]                         # get function to call from the dictionary
         window['-MULTILINE-'].update(inspect.getsource(func))  # show source code to function in multiline
         try:
-            fig = func(data)                                    # call function to get the figure
-            figure_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)  # draw the figure
+            fig = func(data)                                 # call function to get the figure
+            matplotlib.pyplot.show()
+            #figure_agg = draw_figure(window['-CANVAS-'].TKCanvas, fig)  # draw the figure
         except Exception as e:
             print('Exception in fucntion', e)
     window.close()
