@@ -5,7 +5,15 @@
                 "tile_name": "Data",
                 "commment": "General data treatment",
                 "GUIcommand": "new window",
-                "level": 0
+                "level": 0,
+                "Child": [
+                    {
+                        "tile_name": "Visualization",
+                        "commment": "Visualizes data",
+                        "GUIcommand": "new window",
+                        "level": 1
+                    }
+                ]
             },
             {
                 "tile_name": "Project Management",

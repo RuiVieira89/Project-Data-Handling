@@ -1,5 +1,6 @@
 import seaborn as sns
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
+
 
 
 def jointplot(data):
@@ -20,7 +21,7 @@ def grid_plot_dist(data):
     g.map_diag(sns.histplot, kde=True)
 
 
-def catplot(data, kind):
+def catplot(data, kind="box"):
     # kind "violin" or "box"
     
     sns.catplot(data=data, kind=kind)

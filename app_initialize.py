@@ -7,9 +7,14 @@ except ModuleNotFoundError:
 import sys
 
 from ProjectDataHandling.GUI.gui_tabs import GUI_tabs
+from ProjectDataHandling.GUI.Chart_select_display import select_display
+
+import ProjectDataHandling.data_analysis.distribution as dist
+
 from ProjectDataHandling.work_flow_automation.organize_folder import CreateFileSystem
 from ProjectDataHandling.project_management.timelines.make_schedule_from_excel import Gantt_Schedule
 from ProjectDataHandling.utils.String_manipulation import WinFolder_path_to_PY
+from ProjectDataHandling.dumpster_diving.select_use_excel_data import select_use_excel_data
 
 def start_app(context, folder_json_file):
     
@@ -45,6 +50,22 @@ def start_app(context, folder_json_file):
                 gantt.today_line()
                 gantt.ouput(show=True)
                 sg.popup_ok(f'Schedule done! \nFind it at: {target_folder}')
+        
+        elif event == "Visualization":
+            
+            from inspect import getmembers, isfunction
+
+            funcs = getmembers(dist, isfunction)
+
+            func_dict = {}
+
+            for name_func, func in funcs:
+                func_dict[name_func] = func
+            
+            data = select_use_excel_data()
+            select_display(func_dict, data)
+            
+            
 
     sg.popup_no_buttons('Have a nice day!', 
                         background_color='Black', 
