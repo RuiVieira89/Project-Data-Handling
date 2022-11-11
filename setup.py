@@ -14,6 +14,11 @@ except ModuleNotFoundError:
     os.system('pip install numpy')
 
 try:
+    import matplotlib as np
+except ModuleNotFoundError:
+    os.system('pip install matplotlib')
+
+try:
     import PySimpleGUI as sg
 except ModuleNotFoundError:
     os.system('pip install PySimpleGUI')

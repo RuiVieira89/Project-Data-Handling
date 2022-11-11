@@ -17,8 +17,10 @@ from ProjectDataHandling.project_management.timelines.make_schedule_from_excel i
 from ProjectDataHandling.project_management.KPI_calc.Finance import Cost_ratios
 
 from ProjectDataHandling.utils.String_manipulation import WinFolder_path_to_PY
+from ProjectDataHandling.utils.String_manipulation import get_functions
 
 from ProjectDataHandling.dumpster_diving.select_use_excel_data import select_use_excel_data
+
 
 def start_app(context, folder_json_file):
     
@@ -57,14 +59,7 @@ def start_app(context, folder_json_file):
         
         elif event == "Visualization":
             
-            from inspect import getmembers, isfunction
-
-            funcs = getmembers(dist, isfunction)
-
-            func_dict = {}
-
-            for name_func, func in funcs:
-                func_dict[name_func] = func
+            func_dict = get_functions(dist)
             
             data = select_use_excel_data()
             select_display(func_dict, data)
@@ -97,8 +92,18 @@ def start_app(context, folder_json_file):
             
             elif event == 'Cancel':
                 window_cost.close()
-
+        
+        try:
+            import external_functions as external
             
+            func_dict_external = get_functions(external)
+            for func in func_dict_external:
+                if func.__name__ == event:
+                    func()
+            
+        except ModuleNotFoundError as e:
+            print(f'No external functions found: {e}')
+        
 
     sg.popup_no_buttons('Have a nice day!', 
                         background_color='Black', 

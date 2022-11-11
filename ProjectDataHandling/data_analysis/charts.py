@@ -27,7 +27,6 @@ def waterfall_chart(df, title=''):
                                decreasing = {"marker":{"color":"Maroon", "line":{"color":"red", "width":2}}},
                                increasing = {"marker":{"color":"Teal", "line":{"color":"Aquamarine","width": 3}}},
                                totals = {"marker":{"color":"deep sky blue", "line":{"color":"blue", "width":3}}},
-                               
                                ))
 
     fig.update_layout(title=title,
@@ -36,9 +35,6 @@ def waterfall_chart(df, title=''):
                     #width = 800
                     )
 
-    #fig.layout.yaxis.range = [max(df[df.columns[1]])/10, min(df[df.columns[1]])/10]
-    
-    #plt.show()
     #Set y-limit
     #fig.update_yaxes(range = (max(df[df.columns[1]]), min(df.loc[df["measure"] == "total"][df.columns[1]])))
     #fig.update_yaxes(autorange="reversed")
@@ -46,5 +42,3 @@ def waterfall_chart(df, title=''):
     fig.show(renderer="svg")
     
     f.close()
-
-    
