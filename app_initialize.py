@@ -24,6 +24,16 @@ from ProjectDataHandling.dumpster_diving.select_use_excel_data import select_use
 
 def start_app(context, folder_json_file):
     
+    try: # get external function
+        import external_functions as external
+        external_FLAG = True
+        
+        func_dict_external = get_functions(external)
+        
+    except ModuleNotFoundError as e:
+        print(f'No external functions found: {e}')
+        external_FLAG = False
+    
     sg.theme('BlueMono')
 
     tab_group = GUI_tabs(context)
@@ -93,17 +103,11 @@ def start_app(context, folder_json_file):
             elif event == 'Cancel':
                 window_cost.close()
         
-        try:
-            import external_functions as external
+        elif external_FLAG:
             
-            func_dict_external = get_functions(external)
             for func in func_dict_external:
                 if func.__name__ == event:
                     func()
-            
-        except ModuleNotFoundError as e:
-            print(f'No external functions found: {e}')
-        
 
     sg.popup_no_buttons('Have a nice day!', 
                         background_color='Black', 
