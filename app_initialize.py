@@ -25,10 +25,10 @@ from ProjectDataHandling.dumpster_diving.select_use_excel_data import select_use
 def start_app(context, folder_json_file):
     
     try: # get external function
-        import external_functions as external
+        import external_functions.functions as ext_funcs
         external_FLAG = True
         
-        func_dict_external = get_functions(external)
+        func_dict_external = get_functions(ext_funcs)
         
     except ModuleNotFoundError as e:
         print(f'No external functions found: {e}')
@@ -105,9 +105,10 @@ def start_app(context, folder_json_file):
         
         elif external_FLAG:
             
-            for func in func_dict_external:
-                if func.__name__ == event:
-                    func()
+            for name in func_dict_external:
+                if name == event:
+                    run_func = func_dict_external[name]
+                    run_func()
 
     sg.popup_no_buttons('Have a nice day!', 
                         background_color='Black', 
