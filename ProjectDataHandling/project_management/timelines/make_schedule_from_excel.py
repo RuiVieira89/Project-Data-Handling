@@ -105,10 +105,20 @@ class Gantt_Schedule:
         # top ticks (label)
         xticks_top_major = np.arange(major_time_delta/2, self.df.end_num.max()+1, major_time_delta)
         ax_top.set_xticks(xticks_top_major, minor=False)
+                
         # period labels
-        xticks_top_labels = [f"{period} {i}" for i in np.arange(1, len(xticks_top_major)+1, 1)]
+        if period == "week" or period == "Week":
+            xticks_top_labels = [f"{period} {i}" for i in np.arange(1, len(xticks_top_major)+1, 1)]
+        else:
+            xticks_top_labels = []
+            time_stamp = self.df['Start'][0]
+            for i in np.arange(1, len(xticks_top_major)+1, 1):
+                xticks_top_labels.append(
+                    f"{time_stamp.month} / {time_stamp.year}")
+                time_stamp = time_stamp + pd.DateOffset(months=1)
+                
         ax_top.set_xticklabels(xticks_top_labels, ha='center', minor=False)
-        
+            
         # hide major tick (we only want the label)
         ax_top.tick_params(which='major', color='w')
         # increase minor ticks (to marks the periods start and end)
