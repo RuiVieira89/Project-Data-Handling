@@ -131,3 +131,8 @@ dmypy.json
 
 ## exclude run files
 *RUN.py
+
+## exclude individual files
+app_tkinter.py
+
+.vscode/
