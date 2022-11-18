@@ -47,7 +47,10 @@ def GUI_tabs(context):
                 
     tabs = []
     for tab in context:
-        tabs.append(return_tab(tab))
+        
+        tabs.append(
+            return_tab(tab)
+            )
     
     tab_group = [[sg.Text('Good day!\nSelect a tab.')],
                  [sg.TabGroup([tabs],
@@ -57,7 +60,8 @@ def GUI_tabs(context):
                         #selected_title_color='Green', 
                         #selected_background_color='Gray', 
                         border_width=5), 
+                  ],
                   sg.Button('Exit')
-                  ]]
+                 ]
     
     return tab_group
