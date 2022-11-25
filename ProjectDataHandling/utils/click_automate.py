@@ -2,14 +2,18 @@
 
 import pyautogui
 
-def click_button_from_picture(img_path):
+def click_button_from_picture(img_path, clicks=True, confidence=0.8):
     # click on a button when we have a picture of the button
     # the button must be visible when the code runs
 
     button7location = pyautogui.locateCenterOnScreen(img_path, 
                                                      grayscale=False, 
-                                                     confidence=0.9)
-    pyautogui.click(button7location)
+                                                     confidence=confidence)
+    
+    if clicks:
+        pyautogui.click(button7location)
+    
+    return button7location
 
 
 def return_mouse_pos__screen_size(printer=False):

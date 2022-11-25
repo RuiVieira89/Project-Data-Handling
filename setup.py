@@ -28,5 +28,9 @@ try:
 except ModuleNotFoundError:
     os.system('pip install plotly')
 
+try:
+    import cv2
+except ModuleNotFoundError:
+    os.system('pip install opencv-python')
 
 print('End.')
