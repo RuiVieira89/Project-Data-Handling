@@ -6,11 +6,18 @@ import os
 
 class Gantt_Schedule:
     
-    def __init__(self, TARGET_PATH):
+    def __init__(self, TARGET_PATH, data):
         
         self.TARGET_PATH = TARGET_PATH
-        self.dir = os.path.join(TARGET_PATH, 'make_schedule_from_excel.xlsx')
-        self.df = pd.read_excel(self.dir)
+        if data is None:
+            try:
+                self.dir = os.path.join(TARGET_PATH, 'make_schedule_from_excel.xlsx')
+                self.df = pd.read_excel(self.dir)
+            except Exception as e:
+                print('File make_schedule_from_excel.xlsx not found: {e}')
+        else:
+            self.df = data
+            
         self.c_dict = {} # color Dict
         
         # project start date
@@ -146,7 +153,7 @@ class Gantt_Schedule:
             format='png') # Save chart to PNG
 
         if show:
-            plt.show()
+            plt.show(block=False)
 
 def main():
     

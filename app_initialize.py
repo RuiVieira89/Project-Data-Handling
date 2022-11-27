@@ -58,8 +58,27 @@ def start_app(context, folder_json_file):
         elif event == "Schedule":
             target_folder = sg.popup_get_folder('Select target folder',no_window=True)
             if target_folder != '':
-                gantt = Gantt_Schedule(
-                    WinFolder_path_to_PY(target_folder))
+                
+                excelFileCond = os.path.isfile(
+                    os.path.join(target_folder, 'make_schedule_from_excel.xlsx'))
+                
+                if excelFileCond: # found the file
+                    try:
+                        gantt = Gantt_Schedule(
+                            WinFolder_path_to_PY(target_folder),
+                            None)
+                    except Exception as e: # error --> use select data instead
+                        print(e)
+                        dataGantt = select_use_excel_data()
+                        gantt = Gantt_Schedule(
+                            WinFolder_path_to_PY(target_folder),
+                            dataGantt)
+                else: # file not found use selct data
+                    dataGantt = select_use_excel_data()
+                    gantt = Gantt_Schedule(
+                        WinFolder_path_to_PY(target_folder),
+                        dataGantt)
+                    
                 #text1 = sg.popup_get_text('Small : ')
                 gantt.plot(7)
                 gantt.gridlines('Month',30)

@@ -64,4 +64,4 @@ def GUI_tabs(context):
                   sg.Button('Exit')
                  ]
     
-    return tab_group
+    return [tab_group]
