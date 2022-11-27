@@ -1,6 +1,7 @@
 
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 import os
 
@@ -53,13 +54,14 @@ class Gantt_Schedule:
                 
         return self.c_dict[row['Department']]
     
-    def plot(self, major_time_delta):
+    def plot(self, major_time_delta=7):
         
         from matplotlib.patches import Patch
         fig, self.ax = plt.subplots(1, figsize=(16,8))
         # bars
         self.ax.barh(self.df.Task, self.df.current_num, left=self.df.start_num, color=self.df.color)
         self.ax.barh(self.df.Task, self.df.days_start_to_end, left=self.df.start_num, color=self.df.color, alpha=0.5)
+        
         # texts
         for idx, row in self.df.iterrows():
             # completion status
@@ -71,7 +73,7 @@ class Gantt_Schedule:
                     f"{row.Task}", 
                     va='center', alpha=0.8,
                     backgroundcolor='white')
-            
+                        
         ##### LEGENDS #####
         #c_dict = {'MKT':'#E64646', 'FIN':'#E69646', 'ENG':'#34D05C', 'PROD':'#34D0C3', 'IT':'#3475D0'}
         legend_elements = [Patch(facecolor=self.c_dict[i], label=i)  for i in self.c_dict]
@@ -85,8 +87,12 @@ class Gantt_Schedule:
         self.ax.set_xticklabels(xticks_labels[::major_time_delta])
         self.ax.tick_params(axis='x', rotation=90)
       
-    def gridlines(self, period, major_time_delta):
-                
+    def gridlines(self, period='Month', major_time_delta=30):
+        
+        
+        #ax.xaxis.set_major_locator(MonthLocator(bymonthday=1))
+        #ax.xaxis.set_major_formatter(md.DateFormatter('%b'))
+
         # grid lines
         self.ax.set_axisbelow(True)
         self.ax.xaxis.grid(color='gray', linestyle='dashed', alpha=0.2, which='both')
@@ -100,10 +106,12 @@ class Gantt_Schedule:
         ax_top.set_xlim(0, self.df.end_num.max())
 
         # top ticks (markings)
-        xticks_top_minor = np.arange(0, self.df.end_num.max()+1, major_time_delta)
+        xticks_top_minor = np.arange(0,
+                                     self.df.end_num.max()+1, major_time_delta)
         ax_top.set_xticks(xticks_top_minor, minor=True)
         # top ticks (label)
-        xticks_top_major = np.arange(major_time_delta/2, self.df.end_num.max()+1, major_time_delta)
+        xticks_top_major = np.arange(0, 
+                                     self.df.end_num.max()+1, major_time_delta)
         ax_top.set_xticks(xticks_top_major, minor=False)
                 
         # period labels
@@ -133,6 +141,12 @@ class Gantt_Schedule:
         ax_top.spines['right'].set_visible(False)
         ax_top.spines['left'].set_visible(False)
         ax_top.spines['top'].set_visible(False)
+             
+        ax_top.xaxis.grid(color='black', 
+                           #linestyle='dashed', 
+                           alpha=0.8, 
+                           which='both')
+
         
     def today_line(self):
         # Today line
