@@ -72,7 +72,7 @@ class Scraper:
                 
         return files
 
-    def iterator(self):
+    def iterator(self, clean_na=True):
 
         df_file = [None] * len(self.files)
 
@@ -81,5 +81,8 @@ class Scraper:
                 'book_name': file,
                 'Data': self.return_dataframe(file)
                 }
+        
+        if clean_na:
+            df_file = self.clean_nan_rows(df_file)
         
         return df_file
