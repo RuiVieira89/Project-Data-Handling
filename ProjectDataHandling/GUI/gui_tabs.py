@@ -5,6 +5,20 @@ This is not generalized
 
 # --> create new work pkg etc...
 
+# menu with all the project
+#   - json for the options
+#   - json struct for main infos-?
+
+# have a menu with the project tree
+#   - auto name convention
+#   - trow errors for errors
+#   - 
+
+# Auto generate reports
+
+# make gui engine
+
+
 import PySimpleGUI as sg
 import os
 
