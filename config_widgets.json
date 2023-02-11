@@ -1,0 +1,60 @@
+[
+    {
+        "name": "Tab 1",
+        "widgets": [
+            {
+                "Button": {
+                    "text": "Open window 1",
+                    "command": "show_window('Window 1', 'This is window 1')",
+                    "row": "0",
+                    "column": "0"
+                }
+            },
+            {
+                "Button": {
+                    "text": "Open window 2",
+                    "command": "show_window('Window 2', 'This is window 2')",
+                    "row": "1",
+                    "column": "0"
+                }
+            },
+            {
+                "Button": {
+                    "text": "Open window 3",
+                    "command": "show_window('Window 3', 'This is window 3')",
+                    "row": "2",
+                    "column": "0"
+                }
+            }
+        ]
+    },
+    {
+        "name": "Tab 2",
+        "widgets": [
+            {
+                "Button": {
+                    "text": "Open window 1",
+                    "command": "show_window('Window 1', 'This is window 1')",
+                    "row": "0",
+                    "column": "0"
+                }
+            },
+            {
+                "Button": {
+                    "text": "Open window 2",
+                    "command": "show_window('Window 2', 'This is window 2')",
+                    "row": "1",
+                    "column": "0"
+                }
+            },
+            {
+                "Button": {
+                    "text": "Open window 3",
+                    "command": "show_window('Window 3', 'This is window 3')",
+                    "row": "2",
+                    "column": "0"
+                }
+            }
+        ]
+    }
+]
