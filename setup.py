@@ -33,8 +33,9 @@ def get_imported_modules(folder):
     return imported_modules
 
 
-def import_or_install_module(module_name):
+def import_or_install_module(module_name_sub):
     # function to install modules
+    module_name = module_name_sub.split('.')[0]
     try:
         importlib.import_module(module_name)
         print(f"{module_name} is already installed.")
