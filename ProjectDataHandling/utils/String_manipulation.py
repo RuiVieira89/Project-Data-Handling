@@ -22,12 +22,16 @@ def WinFolder_path_to_PY(windows_path):
 
 def get_functions(module):
     
-    from inspect import getmembers, isfunction
+    from inspect import getmembers, isfunction, isclass
 
     funcs = getmembers(module, isfunction)
+    classes = getmembers(module, isclass)
 
-    func_dict = {}
+    menber_dict = {}
     for name_func, func in funcs:
-        func_dict[name_func] = func
+        menber_dict[name_func] = func
 
-    return func_dict
+    for name_class, class_ in classes:
+        menber_dict[name_class] = class_
+
+    return menber_dict

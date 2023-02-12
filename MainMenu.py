@@ -29,11 +29,12 @@ class TabsApp:
                         text=widget_params['text'], 
                         font=('Helvetica', 16),
                         bg='red', height=3, width=15,
-                        command=lambda: TabsApp.show_window(
+                        command=lambda msg=widget_params['text']: TabsApp.show_window(
                             widget_params['command'], 
-                            widget_params['text']
+                            msg
                         )
                     )
+
                     button.grid(row=widget_params['row'], 
                     column=widget_params['column'], 
                     pady=10, padx=10)

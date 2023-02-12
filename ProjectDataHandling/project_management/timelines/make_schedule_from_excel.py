@@ -9,6 +9,10 @@ import xlwings as xw
 class Gantt_Schedule:
     
     def __init__(self, TARGET_PATH=''):
+
+        self.tab = "Project Management"
+        self.name = "Gantt Schedule"
+        self.comment = "Creates a schedule based on the make_schedule_from_excel.xlsx template"
         
         if TARGET_PATH == '':
             self.TARGET_PATH = ''
