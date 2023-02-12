@@ -1,44 +1,75 @@
 
-import plotly.graph_objects as go
+import xlwings as xw
 import matplotlib.pyplot as plt
-from plotly.offline import init_notebook_mode
-init_notebook_mode(connected = True)
+import pandas as pd
 
-import plotly.io as pio
-pio.renderers.default = "browser"
-
-def waterfall_chart(df, title=''):
-    #https://plotly.com/python/waterfall-charts/
-    import sys
-    f = open("waterfall_chart.html", 'w', encoding="utf-8")
-    sys.stdout = f
-
-    fig = go.Figure()
-
-    fig.add_trace(go.Waterfall(x=df[df.columns[0]], 
-                               y=df[df.columns[1]],
-                               measure = df[df.columns[2]].tolist(),
-                               base = 0,   #by default
-                               #get dotted line as connector
-                               connector = {"line":{"dash":"dot"}},
-                               textposition = "outside",
-                               text = df[df.columns[1]].tolist(),
-                               orientation = "v",
-                               decreasing = {"marker":{"color":"Maroon", "line":{"color":"red", "width":2}}},
-                               increasing = {"marker":{"color":"Teal", "line":{"color":"Aquamarine","width": 3}}},
-                               totals = {"marker":{"color":"deep sky blue", "line":{"color":"blue", "width":3}}},
-                               ))
-
-    fig.update_layout(title=title,
-                    #layout_yaxis_range=[max(df[df.columns[1]]), min(df[df.columns[1]])],
-                    #height = 600,
-                    #width = 800
-                    )
-
-    #Set y-limit
-    #fig.update_yaxes(range = (max(df[df.columns[1]]), min(df.loc[df["measure"] == "total"][df.columns[1]])))
-    #fig.update_yaxes(autorange="reversed")
-
-    fig.show(renderer="svg")
+def waterfall_chart(df=[], title=''):
+    # Define the data for the chart
+    if df != []:
+        data = df
+    else:
+        data = xw.load(index=False)
     
-    f.close()
+    # Create a list to store the cumulative sum
+    cumulative_sum = [0]
+    
+    # Create a list to store the colors for each bar
+    colors = []
+    
+    # Loop through each row in the data
+    for i in range(len(data)):
+        if data[data.columns[2]][i] == "abs":
+            cumulative_sum.append(data[data.columns[1]][i])
+            colors.append("blue")
+        elif data[data.columns[2]][i] == "rel":
+            cumulative_sum.append(cumulative_sum[i] + data[data.columns[1]][i])
+            if data[data.columns[1]][i] > 0:
+                colors.append("green")
+            else:
+                colors.append("red")
+        elif data[data.columns[2]][i] == "total":
+            cumulative_sum.append(data[data.columns[1]][i])
+            colors.append("white")
+    
+    # Plot the chart
+    fig, ax = plt.subplots()
+    ax.bar(data[data.columns[0]], data[data.columns[1]].values, 
+    align='center', color=colors, bottom=cumulative_sum[:-1])
+    
+    total_data = data[data[data.columns[2]]=='total']
+
+    ax.bar(total_data[total_data.columns[0]],
+    total_data[total_data.columns[1]].values,
+    color="blue")
+    #ax.plot(range(len(data)), cumulative_sum, color='red')
+
+    for i in range(len(data)):
+        if data[data.columns[2]][i] == "abs" or data[data.columns[2]][i] == "total":
+            ax.text(x=i, y=data[data.columns[1]][i]+0.25,
+            s=data[data.columns[1]][i], ha="center")
+        elif data[data.columns[2]][i] == "rel":
+            if data[data.columns[1]][i] > 0:
+                y_pos = cumulative_sum[i + 1] + 0.25
+                ha = 'center'
+            else:
+                y_pos = cumulative_sum[i + 1] - 0.75
+                ha = 'center'
+            ax.text(x=i, y=y_pos, s=data[data.columns[1]][i], ha=ha)
+ 
+
+    # Add labels and title to the chart
+    ax.set_xlabel(data.columns[0])
+    ax.set_ylabel(data.columns[1])
+    ax.set_title(title)
+
+    plt.xticks(rotation=90)
+
+    plt.tight_layout()
+
+    # Show the chart
+    plt.show()
+
+
+
+
+waterfall_chart()
