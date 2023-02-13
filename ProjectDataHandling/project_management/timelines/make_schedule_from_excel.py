@@ -8,19 +8,25 @@ import xlwings as xw
 
 class Gantt_Schedule:
     
-    def __init__(self, TARGET_PATH=''):
+    def __init__(self, TARGET_PATH='', run=False):
 
         self.tab = "Project Management"
         self.name = "Gantt Schedule"
         self.comment = "Creates a schedule based on the make_schedule_from_excel.xlsx template"
+
+        self.TARGET_PATH = TARGET_PATH
         
-        if TARGET_PATH == '':
+        if run:
+            self.get_gantt_chart()
+
+    def get_data(self):
+
+        if self.TARGET_PATH == '':
             self.TARGET_PATH = ''
             self.df = xw.load(index=False)
 
         else:
-            self.TARGET_PATH = TARGET_PATH
-            self.dir = os.path.join(TARGET_PATH, 'make_schedule_from_excel.xlsx')
+            self.dir = os.path.join(self.TARGET_PATH, 'make_schedule_from_excel.xlsx')
             self.df = pd.read_excel(self.dir)
         
         self.c_dict = {} # color Dict
@@ -144,10 +150,13 @@ class Gantt_Schedule:
 
     def get_gantt_chart(self):
 
+        self.get_data()
         self.plot()
         self.gridlines()
         self.today_line()
         self.ouput(True)
 
-# fast instanciation
-# gant = Gantt_Schedule().get_gantt_chart()
+if __name__ == '__main__':
+    pass
+    # fast instanciation
+    # gant = Gantt_Schedule().get_gantt_chart()

@@ -27,11 +27,11 @@ def get_functions(module):
     funcs = getmembers(module, isfunction)
     classes = getmembers(module, isclass)
 
-    menber_dict = {}
+    member_dict = []
     for name_func, func in funcs:
-        menber_dict[name_func] = func
+        member_dict.append([name_func, func])
 
     for name_class, class_ in classes:
-        menber_dict[name_class] = class_
+        member_dict.append([name_class, class_])
 
-    return menber_dict
+    return member_dict
