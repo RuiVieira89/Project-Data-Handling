@@ -1,6 +1,12 @@
 
 class Cost_ratios:
 
+    def __init__(self):
+        
+        self.tab = "Project Management"
+        self.name = "Cost ratio"
+        self.comment = "Compares two suplliers and returns the cost ratio"
+
     def print_out(self, result, context):
 
         print(f'{context}={result:.2f}\n')

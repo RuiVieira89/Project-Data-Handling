@@ -79,7 +79,7 @@ class distributions:
         self.name = "Plot distributions"
         self.comment = "Creates a plot of n numpy arrays"
 
-    def plot_distribution(data, onlyKDE=False):
+    def plot_distribution(self, data, onlyKDE=False):
         # data = [np.random.normal(0, 1, 100), 
         # np.random.normal(3, 2, 100), 
         # np.random.normal(3, 2, 100)]
@@ -103,5 +103,5 @@ class distributions:
         plt.show()
 
 # Example usage
-data = [np.random.normal(0, 1, 100), np.random.normal(3, 2, 100), np.random.normal(3, 2, 100)]
-distributions().plot_distribution(data)
+# data = [np.random.normal(0, 1, 100), np.random.normal(3, 2, 100), np.random.normal(3, 2, 100)]
+# dist = distributions().plot_distribution(data)
