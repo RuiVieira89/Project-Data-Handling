@@ -2,6 +2,8 @@
 import xlwings as xw
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
+import seaborn as sns
 
 def waterfall_chart(df=[], title=''):
     # Define the data for the chart
@@ -70,6 +72,36 @@ def waterfall_chart(df=[], title=''):
     plt.show()
 
 
+class distributions:
 
+    def __init__(self):
+        self.tab = "Data"
+        self.name = "Plot distributions"
+        self.comment = "Creates a plot of n numpy arrays"
 
-waterfall_chart()
+    def plot_distribution(data, onlyKDE=False):
+        # data = [np.random.normal(0, 1, 100), 
+        # np.random.normal(3, 2, 100), 
+        # np.random.normal(3, 2, 100)]
+        # data in n numpy arrays
+
+        if data == []:
+            data = xw.load(index=False)
+            data = data.values.reshape(1,-1)
+
+        
+        colors = sns.color_palette("husl", n_colors=len(data))
+        for i in range(len(data)):
+            d = data[i]
+            color = colors[i]
+            # Plot the histogram
+            if onlyKDE:
+                sns.kdeplot(d, color=color)
+            else:
+                sns.histplot(d, color=color, kde=True)
+            
+        plt.show()
+
+# Example usage
+data = [np.random.normal(0, 1, 100), np.random.normal(3, 2, 100), np.random.normal(3, 2, 100)]
+distributions().plot_distribution(data)
