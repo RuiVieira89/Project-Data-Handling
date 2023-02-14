@@ -1,63 +1,54 @@
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
 
 import numpy as np
 import pandas as pd
-
-# Set the number of samples and cycles
-n_samples = 15
-n_cycles = 20
-
-# Generate random data for the available cycles
-cycles = np.arange(0, n_cycles+1, 5)
-results = np.random.normal(0, 1, size=len(cycles))
-
-# Interpolate the results for all cycles
-all_cycles = np.arange(0, n_cycles+1)
-all_results = np.interp(all_cycles, cycles, results)
-
-# Select the samples randomly
-samples = np.random.choice(np.arange(n_cycles+1), size=n_samples, replace=False)
-
-# Extract the data for the selected samples
-data = pd.DataFrame({'sample': np.arange(1, n_samples+1),
-                     'cycles': samples,
-                     'results': all_results[samples]})
-
-
-
-# Split the data into input and output variables
-X = data['cycles'].values.reshape(-1, 1)
-y = data['results'].values
-
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Instantiate and fit a linear regression model
-model = LinearRegression()
-model.fit(X_train, y_train)
-
-# Predict the results for new cycles
-X_new = [[25], [30]]
-y_new = model.predict(X_new)
-
-# Convert the input variable to a NumPy array
-X_new = np.array(X_new)
-
-# Predict the results for new cycles
-y_new = model.predict(X_new)
-
-# Evaluate the accuracy of the model
-score = model.score(X_test, y_test)
-mse = mean_squared_error(y_test, model.predict(X_test))
-
-# Visualize the data and predictions
 import matplotlib.pyplot as plt
-import seaborn as sns
+from sklearn.linear_model import LinearRegression
 
-sns.scatterplot(x='cycles', y='results', data=data)
-sns.lineplot(x=X_new.flatten(), y=y_new, color='red')
-plt.show()
+
+def predict_cycles(df):
+    # Create a 2D array of the cycle numbers
+    X = np.array([[0], [5], [10], [15], [20]])
+    # Create a 2D array of the sample results
+    y = df.to_numpy().T
     
+    # Create and train a linear regression model
+    model = LinearRegression()
+    model.fit(X, y)
+    
+    # Use the model to predict the results for cycles 25 and 30
+    X_pred = np.array([[25], [30]])
+    y_pred = model.predict(X_pred).T  # Transpose to swap rows and columns
+    
+    # Plot the dispersion of the distribution
+    fig, ax = plt.subplots()
+    ax.boxplot(y.T, positions=X.reshape(-1))
+    # [[X_pred[0][0], X_pred[1][0]]]
+    # np.tile(a, (15, 1))
+    ax.scatter(np.tile([X_pred[0][0], X_pred[1][0]], (15, 1)), 
+    y_pred, marker='o', color='Black', s=50)
+    ax.set_xlabel('Cycles')
+    ax.set_ylabel('Sample Results')
+    ax.set_title('Dispersion of Sample Results')
+    ax.set_xticks(X.reshape(-1).tolist() + X_pred.reshape(-1).tolist())
+    ax.grid(True, axis='y')
+    plt.show()
+    
+    return y_pred
+
+
+# create a sample DataFrame
+df = pd.DataFrame({
+    0: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    5: [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30],
+    10: [3, 6, 9, 12, 15, 18, 21, 24, 27, 30, 33, 36, 39, 42, 45],
+    15: [4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60],
+    20: [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75]
+})
+
+print(df)
+print()
+
+# call the predict_and_plot_cycles function
+y_pred = predict_cycles(df)
+
+print(y_pred)
