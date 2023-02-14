@@ -20,7 +20,7 @@ class Gantt_Schedule:
             self.get_gantt_chart()
 
     def get_data(self):
-
+        print("Running Gantt_Schedule.get_data")
         if self.TARGET_PATH == '':
             self.TARGET_PATH = ''
             self.df = xw.load(index=False)

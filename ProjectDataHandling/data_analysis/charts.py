@@ -17,6 +17,7 @@ class waterfall_chart:
             self.plot()
 
     def plot(self, df=[], title=''):
+        print("Running waterfall_chart.plot")
         # Define the data for the chart
         if df != []:
             data = df
@@ -94,6 +95,7 @@ class distributions:
             self.plot_distribution()
 
     def plot_distribution(self, data=[], onlyKDE=False):
+        print("Running distributions.plot_distribution")
         # data = [np.random.normal(0, 1, 100), 
         # np.random.normal(3, 2, 100), 
         # np.random.normal(3, 2, 100)]
