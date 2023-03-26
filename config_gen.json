@@ -1,0 +1,11 @@
+[
+    {
+        "name": "configs",
+        "gen_config": [
+            {
+                "size_config_geometry": "400x500"
+            }
+
+        ]
+    }
+]

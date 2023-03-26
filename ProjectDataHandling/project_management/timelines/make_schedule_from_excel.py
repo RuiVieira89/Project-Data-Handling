@@ -4,14 +4,31 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import numpy as np
 import os
+import xlwings as xw
 
 class Gantt_Schedule:
     
-    def __init__(self, TARGET_PATH):
-        
+    def __init__(self, TARGET_PATH='', run=False):
+
+        self.tab = "Project Management"
+        self.name = "Gantt Schedule"
+        self.comment = "Creates a schedule based on the make_schedule_from_excel.xlsx template"
+
         self.TARGET_PATH = TARGET_PATH
-        self.dir = os.path.join(TARGET_PATH, 'make_schedule_from_excel.xlsx')
-        self.df = pd.read_excel(self.dir)
+        
+        if run:
+            self.get_gantt_chart()
+
+    def get_data(self):
+        print("Running Gantt_Schedule.get_data")
+        if self.TARGET_PATH == '':
+            self.TARGET_PATH = ''
+            self.df = xw.load(index=False)
+
+        else:
+            self.dir = os.path.join(self.TARGET_PATH, 'make_schedule_from_excel.xlsx')
+            self.df = pd.read_excel(self.dir)
+        
         self.c_dict = {} # color Dict
         
         # project start date
@@ -86,11 +103,11 @@ class Gantt_Schedule:
         # Set the x-axis to display major and minor time steps
         if period == 'Month':
             self.ax.xaxis.set_major_locator(mdates.MonthLocator())
-            self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+            self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
             self.ax.xaxis.set_minor_locator(mdates.WeekdayLocator(byweekday=mdates.MO))
         elif period == 'Year':
             self.ax.xaxis.set_major_locator(mdates.YearLocator())
-            self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %Y'))
+            self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
             self.ax.xaxis.set_minor_locator(mdates.MonthLocator()) #byweekday=mdates.MO))
         elif period == 'Day':
             self.ax.xaxis.set_major_locator(mdates.WeekdayLocator())
@@ -102,7 +119,7 @@ class Gantt_Schedule:
         self.ax.grid(which='minor', axis='x', linestyle='--', color='grey', linewidth=0.5)
         self.ax.xaxis.set_tick_params(rotation=90, labelsize=20)
         self.ax.autoscale()
-        self.ax.set_xlim(left=self.df.Start.iloc[0], right=self.df.End.iloc[-1])
+        self.ax.set_xlim(left=min(self.df.Start), right=max(self.df.End))
         
         plt.tight_layout()
 
@@ -121,11 +138,25 @@ class Gantt_Schedule:
     
         
     def ouput(self, show=False):
-
-        plt.savefig(
-            os.path.join(self.TARGET_PATH, 
-            'schedule_' + self.TARGET_PATH.split("\\")[-1] + '_gantt.png'), 
-            format='png') # Save chart to PNG
+        
+        if self.TARGET_PATH != '':
+            plt.savefig(
+                os.path.join(self.TARGET_PATH, 
+                'schedule_' + self.TARGET_PATH.split("\\")[-1] + '_gantt.png'), 
+                format='png') # Save chart to PNG
 
         if show:
             plt.show()
+
+    def get_gantt_chart(self):
+
+        self.get_data()
+        self.plot()
+        self.gridlines()
+        self.today_line()
+        self.ouput(True)
+
+if __name__ == '__main__':
+    pass
+    # fast instanciation
+    gant = Gantt_Schedule().get_gantt_chart()

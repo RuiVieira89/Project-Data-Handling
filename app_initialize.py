@@ -17,10 +17,22 @@ from ProjectDataHandling.project_management.timelines.make_schedule_from_excel i
 from ProjectDataHandling.project_management.KPI_calc.Finance import Cost_ratios
 
 from ProjectDataHandling.utils.String_manipulation import WinFolder_path_to_PY
+from ProjectDataHandling.utils.String_manipulation import get_functions
 
 from ProjectDataHandling.dumpster_diving.select_use_excel_data import select_use_excel_data
 
+
 def start_app(context, folder_json_file):
+    
+    try: # get external function
+        import external_functions.functions as ext_funcs
+        external_FLAG = True
+        
+        func_dict_external = get_functions(ext_funcs)
+        
+    except ModuleNotFoundError as e:
+        print(f'No external functions found: {e}')
+        external_FLAG = False
     
     sg.theme('BlueMono')
 
@@ -46,8 +58,27 @@ def start_app(context, folder_json_file):
         elif event == "Schedule":
             target_folder = sg.popup_get_folder('Select target folder',no_window=True)
             if target_folder != '':
-                gantt = Gantt_Schedule(
-                    WinFolder_path_to_PY(target_folder))
+                
+                excelFileCond = os.path.isfile(
+                    os.path.join(target_folder, 'make_schedule_from_excel.xlsx'))
+                
+                if excelFileCond: # found the file
+                    try:
+                        gantt = Gantt_Schedule(
+                            WinFolder_path_to_PY(target_folder),
+                            None)
+                    except Exception as e: # error --> use select data instead
+                        print(e)
+                        dataGantt = select_use_excel_data()
+                        gantt = Gantt_Schedule(
+                            WinFolder_path_to_PY(target_folder),
+                            dataGantt)
+                else: # file not found use selct data
+                    dataGantt = select_use_excel_data()
+                    gantt = Gantt_Schedule(
+                        WinFolder_path_to_PY(target_folder),
+                        dataGantt)
+                    
                 #text1 = sg.popup_get_text('Small : ')
                 gantt.plot(7)
                 gantt.gridlines('Month',30)
@@ -57,14 +88,7 @@ def start_app(context, folder_json_file):
         
         elif event == "Visualization":
             
-            from inspect import getmembers, isfunction
-
-            funcs = getmembers(dist, isfunction)
-
-            func_dict = {}
-
-            for name_func, func in funcs:
-                func_dict[name_func] = func
+            func_dict = get_functions(dist)
             
             data = select_use_excel_data()
             select_display(func_dict, data)
@@ -97,8 +121,13 @@ def start_app(context, folder_json_file):
             
             elif event == 'Cancel':
                 window_cost.close()
-
+        
+        elif external_FLAG:
             
+            for name in func_dict_external:
+                if name == event:
+                    run_func = func_dict_external[name]
+                    run_func()
 
     sg.popup_no_buttons('Have a nice day!', 
                         background_color='Black', 
