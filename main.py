@@ -11,47 +11,42 @@ import pandas as pd
 from tkinter import ttk
 
 
-class GUI:
-    def __init__(self, buttons_list, comments_df):
+class GUIInterface:
+    def __init__(self, button_list, comment_df):
+        self.button_list = button_list
+        self.comment_df = comment_df
         self.root = tk.Tk()
-        self.root.title("GUI Interface")
-        self.root.geometry("500x500")
-        self.tab_control = ttk.Notebook(self.root)
-        self.buttons_list = buttons_list
-        self.comments_df = comments_df
-
-        self.create_tabs()
-        self.create_buttons()
-
-    def create_tabs(self):
-        tabs = self.comments_df['Tabs'].unique()
-        self.tab_dict = {}
-        for tab in tabs:
-            self.tab_dict[tab] = tk.Frame(self.tab_control)
-            self.tab_control.add(self.tab_dict[tab], text=tab)
-        self.tab_control.pack(expand=1, fill='both')
-
-    def create_buttons(self):
-        for button in self.buttons_list:
-            button_name = button[0]
-            button_command = button[1]
-            button_tab = self.comments_df[self.comments_df['Names'] == button_name]['Tabs'].iloc[0]
-            button_comment = self.comments_df[self.comments_df['Names'] == button_name]['Comments'].iloc[0]
-            b = tk.Button(self.tab_dict[button_tab], text=button_name, command=button_command(run=True))
-            b.pack()
-            #b.bind("<Enter>", lambda event, b=b, c=button_comment: self.show_comments(event, b, c))
-            #b.bind("<Leave>", lambda event, b=b: self.remove_comments(event, b))
-
-    def show_comments(self, event, button, comments):
-        self.tooltip = tk.Label(self.root, text=comments, background='white', relief='solid', borderwidth=1)
-        self.tooltip.pack()
-        self.tooltip.bind("<Leave>", lambda event, b=self.tooltip: self.remove_comments(event, b))
-        self.tooltip.bind("<ButtonPress>", lambda event, b=self.tooltip: self.remove_comments(event, b))
-        self.tooltip.place(x=event.x_root, y=event.y_root+20, height=100, width=100)
-
-    def remove_comments(self, event, widget):
-        widget.pack_forget()
-
+        self.root.title("My GUI")
+        
+        # Create tabs
+        self.tab_control = tk.ttk.Notebook(self.root)
+        self.tabs = {}
+        for tab_name in comment_df['Tabs'].unique():
+            self.tabs[tab_name] = tk.Frame(self.tab_control)
+            self.tab_control.add(self.tabs[tab_name], text=tab_name)
+        self.tab_control.pack(expand=1, fill="both")
+        
+        # Create buttons
+        self.buttons = {}
+        for button_name, button_func in button_list:
+            button_tab = comment_df.loc[comment_df['Names'] == button_name, 'Tabs'].values[0]
+            button_comment = comment_df.loc[comment_df['Names'] == button_name, 'Comments'].values[0]
+            self.buttons[button_name] = tk.Button(self.tabs[button_tab], text=button_name)
+            self.buttons[button_name].bind("<Enter>", lambda event, comment=button_comment: self.show_comment(comment))
+            self.buttons[button_name].bind("<Leave>", lambda event: self.hide_comment())
+            self.buttons[button_name].config(command=lambda func=button_func: self.button_clicked(func))
+            self.buttons[button_name].pack()
+    
+    def show_comment(self, comment):
+        self.comment_label = tk.Label(text=comment)
+        self.comment_label.pack()
+        
+    def hide_comment(self):
+        self.comment_label.pack_forget()
+    
+    def button_clicked(self, func):
+        func(True)
+    
     def run(self):
         self.root.mainloop()
 
@@ -84,7 +79,7 @@ def main():
     d = {'Names': names, 'Tabs': tabs, 'Comments': comments}
     GUIfunctionality = pd.DataFrame(data=d)
 
-    gui = GUI(obj_list, GUIfunctionality)
+    gui = GUIInterface(obj_list, GUIfunctionality)
     gui.run()
     
     

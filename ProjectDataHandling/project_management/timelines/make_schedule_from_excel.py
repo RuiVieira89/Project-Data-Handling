@@ -159,4 +159,4 @@ class Gantt_Schedule:
 if __name__ == '__main__':
     pass
     # fast instanciation
-    # gant = Gantt_Schedule().get_gantt_chart()
+    gant = Gantt_Schedule().get_gantt_chart()
