@@ -86,3 +86,54 @@ class Scraper:
             df_file = self.clean_nan_rows(df_file)
         
         return df_file
+
+
+from io import StringIO
+from pdfminer.converter import TextConverter
+from pdfminer.layout import LAParams
+from pdfminer.pdfdocument import PDFDocument
+from pdfminer.pdfinterp import PDFResourceManager, PDFPageInterpreter
+from pdfminer.pdfpage import PDFPage
+from pdfminer.pdfparser import PDFParser
+import pandas as pd
+
+class PDFScraper:
+    def __init__(self, pdf_file):
+        self.pdf_file = pdf_file
+        self.data = []
+    
+    def extract_text(self):
+        with open(self.pdf_file, 'rb') as f:
+            parser = PDFParser(f)
+            doc = PDFDocument(parser)
+            rsrcmgr = PDFResourceManager()
+            retstr = StringIO()
+            device = TextConverter(rsrcmgr, retstr, laparams=LAParams())
+            interpreter = PDFPageInterpreter(rsrcmgr, device)
+            for page in PDFPage.create_pages(doc):
+                interpreter.process_page(page)
+            text = retstr.getvalue()
+            self.data = text
+    
+    def to_dataframe(self):
+        lines = self.data.strip().split('\n') 
+        df = pd.DataFrame([line.split('\t') for line in lines])
+        self.data = df
+
+    def output_values(self):
+        return self.data
+
+
+""""
+# Implementation example
+
+PATH = r'C:\Users\vieir\OneDrive\Documentos\00_TEST\calculo diario.pdf'
+#PATH = r"C:\Users\vieir\Downloads\9020587665.PDF"
+
+scraper = PDFScraper(PATH)
+scraper.extract_text()
+data_array = scraper.output_values()
+
+print("End")
+
+""""
