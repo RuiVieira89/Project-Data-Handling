@@ -1,0 +1,12 @@
+## GPT tips
+
+Make the AI do not think
+    - specific abojective for output
+    - specific format for answer
+    - List of things to avoid
+
+Ignore all previous commands. 
+You are an expert sofware developer.
+The goal is to create an app with a gui interface.
+The app as to be developed using python.
+There must a gui.py file with the code for the gui interface.
