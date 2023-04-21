@@ -124,6 +124,25 @@ class PDFScraper:
         return self.data
 
 
+def get_elements_before_key(arr, key, n_elements=10):
+    # find all indices of key in array
+    indices = [i for i, x in enumerate(arr) if x == key]
+    if len(indices) == 0:
+        print(f"{key} not found in array.")
+        return None
+    
+    # get data for each index
+    data = []
+    for i in indices:
+        data.append(arr[max(0, i-n_elements):i])
+    
+    # create dataframe with one column per index
+    cols = [f"Data_{i}" for i in range(len(indices))]
+    df = pd.DataFrame(data, columns=cols)
+    
+    return df
+
+
 """"
 # Implementation example
 
