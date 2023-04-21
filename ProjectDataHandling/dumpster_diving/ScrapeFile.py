@@ -4,6 +4,7 @@
 import os
 import pandas as pd
 import tabula as tb
+import re
 
 
 class Scraper:
@@ -141,6 +142,41 @@ def get_elements_before_key(arr, key, n_elements=10):
     df = pd.DataFrame(data, columns=cols)
     
     return df
+
+
+class StringParser:
+    def __init__(self, input_string, num_rows, num_cols):
+        self.input_string = input_string
+        self.num_rows = num_rows
+        self.num_cols = num_cols
+        
+    def extract_numerical_data(self):
+        # Use regular expression to extract numerical data from string
+        numerical_data = re.findall(r'\d+\.\d+|\d+', self.input_string)
+        return numerical_data
+        
+    def fill_dataframe(self):
+        # Extract numerical data from string
+        numerical_data = self.extract_numerical_data()
+        
+        # Calculate the total number of elements needed in the dataframe
+        num_elements = self.num_rows * self.num_cols
+        
+        # Make sure we have enough numerical data to fill the dataframe
+        if len(numerical_data) < num_elements:
+            raise ValueError('Not enough numerical data to fill dataframe')
+        
+        # Create dataframe with specified dimensions
+        df = pd.DataFrame(columns=['col{}'.format(i+1) for i in range(self.num_cols)])
+        
+        # Fill dataframe with numerical data
+        for i in range(self.num_rows):
+            start = i * self.num_cols
+            end = start + self.num_cols
+            row_data = numerical_data[start:end]
+            df.loc[i] = row_data
+        
+        return df
 
 
 """"
