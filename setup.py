@@ -1,64 +1,66 @@
 
-import importlib
-import subprocess
-import sys
-
-import ast
 import os
+import ast
+import subprocess
 
-print('Running Setup.py')
-print('Cleaning...')
-
-## Clean cache
-for p in __import__('pathlib').Path('.').rglob('*.py[co]'): p.unlink()
-for p in __import__('pathlib').Path('.').rglob('__pycache__'): p.rmdir()
-print('Cleaning cache: Done.')
-
-
-def get_imported_modules(folder):
-    # finds modules inside folder
-    imported_modules = set()
-    for root, dirs, files in os.walk(folder):
+def find_python_files(folder):
+    python_files = []
+    for root, _, files in os.walk(folder):
         for file in files:
-            if file.endswith('.py'):
-                with open(os.path.join(root, file), 'r') as f:
-                    code = f.read()
-                    tree = ast.parse(code)
-                    for node in ast.walk(tree):
-                        if isinstance(node, ast.Import):
-                            for name in node.names:
-                                imported_modules.add(name.name)
-                        elif isinstance(node, ast.ImportFrom):
-                            imported_modules.add(node.module)
-    return imported_modules
+            if file.endswith(".py"):
+                python_files.append(os.path.join(root, file))
+    return python_files
 
+def extract_imports(file_path):
+    with open(file_path, "r") as file:
+        content = file.read()
 
-def import_or_install_module(module_name_sub):
-    # function to install modules
-    module_name = module_name_sub.split('.')[0]
-    try:
-        importlib.import_module(module_name)
-        print(f"{module_name} is already installed.")
-    except ImportError:
-        print(f"{module_name} not found, installing it now.")
+    tree = ast.parse(content)
+    imports = set()
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Import):
+            for alias in node.names:
+                imports.add(alias.name)
+        elif isinstance(node, ast.ImportFrom):
+            for alias in node.names:
+                imports.add(f"{node.module}.{alias.name}")
+    
+    return imports
+
+def install_packages(imports):
+    for package in imports:
         try:
-            subprocess.run([sys.executable, "-m", "pip", "install", module_name])
-            print(f"{module_name} has been installed.")
-        except ModuleNotFoundError:
-            print(f"Error:{module_name} is not found.")
-
+            subprocess.run(["pip", "install", package], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Failed to install {package}: {e}")
 
 def main():
 
-    modules = get_imported_modules(os.getcwd())
-    ## install packages
-    for module in modules:
-        import_or_install_module(module)
+    print('Running Setup.py')
+    root_folder = os.getcwd()  
+    all_imports = set()
+
+    python_files = find_python_files(root_folder)
+
+    for file_path in python_files:
+        imports = extract_imports(file_path)
+        all_imports.update(imports)
+
+    print("Found the following imports:")
+    for package in all_imports:
+        print(package)
+
+    install_packages(all_imports)
+
     
-    print('main(): All done.')
+    print('Cleaning...')
+
+    ## Clean cache
+    for p in __import__('pathlib').Path('.').rglob('*.py[co]'): p.unlink()
+    for p in __import__('pathlib').Path('.').rglob('__pycache__'): p.rmdir()
+    print('Cleaning cache: Done.')
+
+
 
 if __name__ == "__main__":
-
     main()
-
-    print('End.')
