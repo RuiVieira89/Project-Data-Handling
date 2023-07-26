@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 
+import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib
 from matplotlib.ticker import FuncFormatter
@@ -22,9 +23,9 @@ class PolynomialRegression:
         self.coefs = []
         self.prediction_cycle_time = None
     
-    def fit(self, measured_cycle_time, measured_data):
+    def fit(self, measured_cycle_time, measured_data, prediction_cycle_time):
         np.random.seed(42)
-        self.prediction_cycle_time = np.random.uniform(21, 30, size=5)
+        self.prediction_cycle_time = prediction_cycle_time
 
         X_poly = self.poly_features.fit_transform(
             measured_cycle_time.reshape(len(measured_cycle_time), -1))
@@ -32,7 +33,10 @@ class PolynomialRegression:
             len(self.prediction_cycle_time), -1)
         
         for i in range(measured_data.shape[0]):
-            y = measured_data[i]
+            if len(measured_data.shape) == 1:
+                y = measured_data
+            else:
+                y = measured_data[i]
             
             model = LinearRegression()
             model.fit(X_poly, y)
@@ -51,25 +55,36 @@ class PolynomialRegression:
             self.regression_models.append(model)
 
     def plot_results(self, measured_cycle_time, measured_data):
+        predictions_plot = np.asarray(self.predictions)
+        
         plt.rcParams.update({'font.size': 20})
 
-        plt.boxplot(measured_data, positions=measured_cycle_time,
-                    showfliers=False, patch_artist=True,
-                    boxprops=dict(facecolor='skyblue'))
+        _, self.ax = plt.subplots()
 
-        predictions_plot = np.asarray(self.predictions)
+        try:
+            self.ax.boxplot(measured_data, positions=measured_cycle_time,
+                        showfliers=False, patch_artist=True,
+                        boxprops=dict(facecolor='skyblue'))
+            self.ax.boxplot(predictions_plot, 
+                        positions=self.poly_features.transform(
+                self.prediction_cycle_time.reshape(-1, 1))[:, 1])
+
+        except Exception: # 1D do scatter instead
+            predictions_plot = predictions_plot[0]
+            self.ax.scatter(measured_cycle_time, measured_data)
+            self.ax.scatter(self.prediction_cycle_time, predictions_plot)
+
+
 
         for i, pred_data in enumerate(predictions_plot):
+            # confidence ‾X ± Z(S ÷ √n) ==> Z=1.96 for 95%
             confidence_interval = 1.96 * np.std(pred_data)
             lower_bound = pred_data - confidence_interval
             upper_bound = pred_data + confidence_interval
-            plt.fill_between(self.poly_features.transform(
+            self.ax.fill_between(self.poly_features.transform(
                 self.prediction_cycle_time.reshape(-1, 1))[:, 1], 
                 lower_bound, upper_bound, color='green', alpha=0.1)
 
-        plt.boxplot(predictions_plot, 
-                    positions=self.poly_features.transform(
-            self.prediction_cycle_time.reshape(-1, 1))[:, 1])
 
 
         def format_x_ticks(x, pos):
@@ -77,6 +92,9 @@ class PolynomialRegression:
 
         plt.gca().xaxis.set_major_formatter(FuncFormatter(format_x_ticks))
         plt.ylim(bottom=0)
+
+        self.ax.grid(True)
+
 
     def stat_info(self):
 
@@ -86,7 +104,6 @@ class PolynomialRegression:
             print(f"Curve {i+1} R squared: {self.r_squared_values[i]:.2f}")
 
             print()
-
 
 
 
@@ -204,11 +221,13 @@ if __name__ == "__main__":
 
     measured_cycle_time = np.random.uniform(0, 20, size=20)
     measured_data = np.random.uniform(14, 18, size=(15, 20))
+    prediction_cycle_time = np.random.uniform(21, 30, size=5)
 
     poly_regression = PolynomialRegression(degree=2)
-    poly_regression.fit(measured_cycle_time, measured_data)
+    poly_regression.fit(measured_cycle_time, measured_data, prediction_cycle_time)
     poly_regression.plot_results(measured_cycle_time, measured_data)
     poly_regression.stat_info()
+    plt.show()
 
 
 '''
@@ -254,11 +273,17 @@ And also handle a case with several experiments with several samples (3D data st
 
 ###########################################################
 
-A material test was performed: rubber degradation in acid using n samples.
-The tensile strength was measured in some time points during the test.
-We have data for n samples during t cycles.
-Using this information I want to predict the material tensile strength if the test was done for longer (t + 1, t + 2, ...).
-I want to forecast and plot predictions.
 
+Hi! You are a Python, machine learning, and statistics expert. 
+A material test was performed: rubber degradation in acid using 15 samples.
+The tensile strength was measured at random cycle time points during the test for the 15 samples.
+Using this information I want to predict the material tensile strength if the test was done for longer.
+Generate random data between 14 and 18 for 20 cycles and 15 samples.
+The data is not evenly spaced. The measurement is done randomly between 0 and 20 cycle time.
+The predictions will be done randomly between 21 and 30 cycle time with the size will be the number of prediction cycles.
+I want to forecast and plot predictions with 95% confidence.
+The idea is to show the 95% confidence area as a shaded area for the forecasts.
+Don't show the confidence interval for the measurements.
+All the sample observations and predictions must be plotted in the same figure using a boxplot.
 
 '''
