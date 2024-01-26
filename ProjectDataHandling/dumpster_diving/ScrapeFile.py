@@ -179,16 +179,116 @@ class StringParser:
         return df
 
 
-""""
-# Implementation example
+import torch
+import torch.nn as nn
+import pandas as pd
+import re
 
-PATH = r'C:\Users\vieir\OneDrive\Documentos\00_TEST\calculo diario.pdf'
-#PATH = r"C:\Users\vieir\Downloads\9020587665.PDF"
+class PDFDataOrganizer(nn.Module):
+    def __init__(self, table_regex_list, num_regex_list):
+        super(PDFDataOrganizer, self).__init__()
+        self.table_regex_list = table_regex_list
+        self.num_regex_list = num_regex_list
+        
+    def forward(self, input_string):
+        # Split input string into lines
+        lines = input_string.split('\n')
+        
+        # Initialize empty dataframe and numerical data dictionary
+        df = pd.DataFrame()
+        num_dict = {}
+        
+        # Process each line in the input string
+        for line in lines:
+            # Check if the line matches any of the table regular expressions
+            for regex in self.table_regex_list:
+                if re.match(regex, line):
+                    # If the line matches a table regular expression, parse it into a dataframe
+                    df = pd.read_csv(pd.compat.StringIO(line), delimiter='\s+')
+                    
+                    # Rename columns to remove any special characters or spaces
+                    df.columns = [re.sub('[^0-9a-zA-Z]+', '', col) for col in df.columns]
+                    
+                    # Break out of the loop, since we've found a table
+                    break
+                    
+            # If the line doesn't match a table regular expression, check if it contains numerical data
+            if not df.empty:
+                # If a table has already been found, associate any numerical data on this line with its context
+                for regex in self.num_regex_list:
+                    match = re.search(regex, line)
+                    if match:
+                        num = float(match.group(1))
+                        context = match.group(2)
+                        for col in df.columns:
+                            if col.lower() in context.lower():
+                                num_dict[col] = num
+            else:
+                # If a table hasn't been found yet, check if the line contains text data
+                pass  # TODO: Implement text data parsing
+            
+        # Convert numerical data dictionary to pandas series and append to dataframe
+        num_series = pd.Series(num_dict)
+        df = df.append(num_series, ignore_index=True)
+        
+        return df
 
-scraper = PDFScraper(PATH)
-scraper.extract_text()
-data_array = scraper.output_values()
 
-print("End")
+import torch
+import torch.nn as nn
+import pandas as pd
+import re
 
-""""
+import nltk
+nltk.download('punkt')
+from nltk.tokenize import word_tokenize
+
+class PDFOrganizer(nn.Module):
+    def __init__(self, embedding_dim, hidden_dim, output_dim):
+        super(PDFOrganizer, self).__init__()
+        
+        # Text processing layer
+        self.text_embedding = nn.Embedding(num_embeddings=10000, embedding_dim=embedding_dim)
+        self.text_rnn = nn.LSTM(input_size=embedding_dim, hidden_size=hidden_dim, batch_first=True)
+        
+        # Numerical processing layer
+        self.numerical_rnn = nn.LSTM(input_size=1, hidden_size=hidden_dim, batch_first=True)
+        self.numerical_output = nn.Linear(hidden_dim, output_dim)
+        
+        # Table processing layer
+        self.table_output = nn.Linear(10, output_dim)
+    
+    def forward(self, input_string):
+        # Preprocess input string
+        numerical_data = re.findall(r'[0-9]+(?:\.[0-9]*)?', input_string)
+        text_data = word_tokenize(input_string)
+        table_data = pd.read_csv(r"C:\Users\vieir\OneDrive\Documentos\00_TEST\calculo diario.csv")
+        
+        # Associate numerical data with nearest text token
+        numerical_indices = []
+        for num in numerical_data:
+            num_index = input_string.find(num)
+            nearest_token = min(text_data, key=lambda x: abs(input_string.find(x)-num_index))
+            nearest_token_index = text_data.index(nearest_token)
+            numerical_indices.append((num, nearest_token_index))
+        
+        # Text processing
+        #text_embeddings = self.text_embedding(text_data)
+        input_indices_tensor = torch.tensor(text_data)
+        text_embeddings = self.text_embedding(input_indices_tensor)
+        _, (text_hn, _) = self.text_rnn(text_embeddings)
+        text_output = text_hn.squeeze()[numerical_indices]
+        
+        # Numerical processing
+        numerical_inputs = torch.tensor([float(num) for num in numerical_data]).unsqueeze(0)
+        _, (numerical_hn, _) = self.numerical_rnn(numerical_inputs)
+        numerical_output = self.numerical_output(numerical_hn.squeeze())
+        
+        # Table processing
+        table_output = self.table_output(table_data)
+        
+        # Concatenate output
+        output = torch.cat([text_output, numerical_output, table_output], dim=0)
+        
+        return output
+

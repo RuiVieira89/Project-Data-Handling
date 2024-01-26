@@ -6,7 +6,11 @@ Make the AI do not think
     - List of things to avoid
 
 Ignore all previous commands. 
-You are an expert sofware developer.
+You are an expert python sofware developer.
 The goal is to create an app with a gui interface.
 The app as to be developed using python.
+The app will be used for project management.
 There must a gui.py file with the code for the gui interface.
+The main menu will have several buttons for each module.
+Once you click on a module button, the window must display that module name and have a back button on the botton all the previous buttons must not appear.  
+This GUI will have these modules: Data visualition; Schedule; KPI; simulation.
