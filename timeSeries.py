@@ -125,7 +125,9 @@ plt.fill_between([*labels, *x_fit_pred[-2:]],
 plt.xlabel('X-axis')
 plt.ylabel('Y-axis')
 plt.legend()
-plt.show()
+
+
+
 
 
 plt.show()

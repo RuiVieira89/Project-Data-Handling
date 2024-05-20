@@ -33,10 +33,12 @@ def return_mouse_pos__screen_size(printer=False):
     
     return [screenWidth, screenHeight, currentMouseX, currentMouseY]
 
+
 def except_func(file, arg, i):
     # to edit auto 
     pyautogui.write(arg[i], interval=0.01)
     pyautogui.press('left')
+
 
 class autoEngine():
 
